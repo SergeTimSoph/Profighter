@@ -1,0 +1,16 @@
+{
+    "name": "Profighter.Client",
+    "rootNamespace": "",
+    "references": [
+        "GUID:234fda4ebcb505343ae6bf8449cd6faa"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}
