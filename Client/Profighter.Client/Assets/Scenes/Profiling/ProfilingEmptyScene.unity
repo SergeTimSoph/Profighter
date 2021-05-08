@@ -570,7 +570,7 @@ PrefabInstance:
     - target: {fileID: 8363711872297215947, guid: 6c286802b992ca34bb7cc436d23d1329,
         type: 3}
       propertyPath: m_Name
-      value: FpsSetter
+      value: Main
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 6c286802b992ca34bb7cc436d23d1329, type: 3}

@@ -5,7 +5,10 @@ EditorBuildSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Scenes:
-  - enabled: 1
+  - enabled: 0
     path: Assets/Scenes/Profiling/ProfilingEmptyScene.unity
     guid: beded92ad4f2558469fa6c4429bcb14c
+  - enabled: 1
+    path: Assets/Scenes/Profiling/ProfilingSceneWithKCC.unity
+    guid: 4a9e97e4c3d16fa4282380c2efcf5294
   m_configObjects: {}
