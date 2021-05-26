@@ -1,9 +1,8 @@
 using System;
 using DigitalRubyShared;
 using UnityEngine;
-using UnityStandardAssets.CrossPlatformInput;
 
-namespace Profighter.Client.Input
+namespace Profighter.Client.PlayerInput
 {
     public class FingersTouchPad : MonoBehaviour
     {

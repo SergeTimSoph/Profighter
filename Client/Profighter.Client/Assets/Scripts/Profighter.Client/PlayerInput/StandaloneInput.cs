@@ -1,7 +1,7 @@
 using System;
 using UnityEngine;
 
-namespace UnityStandardAssets.CrossPlatformInput.PlatformSpecific
+namespace Profighter.Client.PlayerInput
 {
     public class StandaloneInput : VirtualInput
     {

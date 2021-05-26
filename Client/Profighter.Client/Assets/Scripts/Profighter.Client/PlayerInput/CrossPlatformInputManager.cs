@@ -1,8 +1,7 @@
 using System;
 using UnityEngine;
-using UnityStandardAssets.CrossPlatformInput.PlatformSpecific;
 
-namespace UnityStandardAssets.CrossPlatformInput
+namespace Profighter.Client.PlayerInput
 {
 	public static class CrossPlatformInputManager
 	{

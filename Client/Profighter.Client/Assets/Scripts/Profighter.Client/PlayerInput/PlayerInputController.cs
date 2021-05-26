@@ -2,12 +2,11 @@
 using Profighter.Client.Camera;
 using Profighter.Client.Character;
 using UnityEngine;
-using UnityStandardAssets.CrossPlatformInput;
 using CharacterController = Profighter.Client.Character.CharacterController;
 
-namespace Profighter.Client.Input
+namespace Profighter.Client.PlayerInput
 {
-    public class PlayerInput : MonoBehaviour
+    public class PlayerInputController : MonoBehaviour
     {
         public CharacterController Character;
         public OrbitCamera CharacterCamera;

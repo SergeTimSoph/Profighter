@@ -1,9 +1,8 @@
 using System;
 using DigitalRubyShared;
 using UnityEngine;
-using UnityStandardAssets.CrossPlatformInput;
 
-namespace Profighter.Client.Input
+namespace Profighter.Client.PlayerInput
 {
     public class FingersJoystick : MonoBehaviour
     {
@@ -40,9 +39,10 @@ namespace Profighter.Client.Input
 
         private void Start()
         {
-            panBeganPosition = joystickBackgroundAnchor.position;
+            var joystickBackgroundPosition = joystickBackgroundAnchor.position;
+            panBeganPosition = joystickBackgroundPosition;
 
-            initialJoystickBackgroundPosition = joystickBackgroundAnchor.position;
+            initialJoystickBackgroundPosition = joystickBackgroundPosition;
             initialJoystickForegroundPosition = joystickForegroundAnchor.position;
         }
 
@@ -81,8 +81,10 @@ namespace Profighter.Client.Input
 
         private void HandlePanBeganGesture(GestureRecognizer panGesture)
         {
-            joystickBackgroundAnchor.position = new Vector3(panGesture.StartFocusX, panGesture.StartFocusY, joystickBackgroundAnchor.position.z);
-            panBeganPosition = joystickBackgroundAnchor.position;
+            var joystickBackgroundPosition = joystickBackgroundAnchor.position;
+            joystickBackgroundPosition = new Vector3(panGesture.StartFocusX, panGesture.StartFocusY, joystickBackgroundPosition.z);
+            joystickBackgroundAnchor.position = joystickBackgroundPosition;
+            panBeganPosition = joystickBackgroundPosition;
         }
 
         private void HandlePanExecutingGesture(GestureRecognizer panGesture)

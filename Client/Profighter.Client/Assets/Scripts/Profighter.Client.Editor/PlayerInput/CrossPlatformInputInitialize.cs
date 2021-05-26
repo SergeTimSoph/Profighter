@@ -1,8 +1,7 @@
-using System;
 using System.Collections.Generic;
 using UnityEditor;
 
-namespace UnityStandardAssets.CrossPlatformInput.Inspector
+namespace Profighter.Client.Editor.PlayerInput
 {
     [InitializeOnLoad]
     public class CrossPlatformInitialize

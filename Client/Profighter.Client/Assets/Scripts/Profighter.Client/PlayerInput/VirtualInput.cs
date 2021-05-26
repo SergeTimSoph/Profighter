@@ -1,9 +1,7 @@
-using System;
 using System.Collections.Generic;
 using UnityEngine;
 
-
-namespace UnityStandardAssets.CrossPlatformInput
+namespace Profighter.Client.PlayerInput
 {
     public abstract class VirtualInput
     {
