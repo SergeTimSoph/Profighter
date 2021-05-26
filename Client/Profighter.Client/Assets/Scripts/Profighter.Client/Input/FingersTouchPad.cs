@@ -5,28 +5,18 @@ using UnityStandardAssets.CrossPlatformInput;
 
 namespace Profighter.Client.Input
 {
-    public class FingersJoystick : MonoBehaviour
+    public class FingersTouchPad : MonoBehaviour
     {
         [SerializeField]
         private GameObject panView;
-        [SerializeField]
-        private RectTransform joystickBackgroundAnchor;
-        [SerializeField]
-        private RectTransform joystickForegroundAnchor;
 
-        [SerializeField]
-        private float panUnitsForMaxMove = 1.5f;
         [SerializeField]
         private float panGestureThresholdUnits = 0.1f;
 
         [SerializeField]
-        private string horizontalAxisName = "Horizontal";
+        private string horizontalAxisName = "RotationX";
         [SerializeField]
-        private string verticalAxisName = "Vertical";
-
-        private Vector2 panBeganPosition;
-        private Vector2 initialJoystickBackgroundPosition;
-        private Vector2 initialJoystickForegroundPosition;
+        private string verticalAxisName = "RotationY";
 
         private PanGestureRecognizer panGesture;
         private CrossPlatformInputManager.VirtualAxis horizontalVirtualAxis;
@@ -36,14 +26,6 @@ namespace Profighter.Client.Input
         {
             CreateAndAddGestureRecognizer();
             CreateAndAddVirtualAxes();
-        }
-
-        private void Start()
-        {
-            panBeganPosition = joystickBackgroundAnchor.position;
-
-            initialJoystickBackgroundPosition = joystickBackgroundAnchor.position;
-            initialJoystickForegroundPosition = joystickForegroundAnchor.position;
         }
 
         private void CreateAndAddGestureRecognizer()
@@ -81,35 +63,21 @@ namespace Profighter.Client.Input
 
         private void HandlePanBeganGesture(GestureRecognizer panGesture)
         {
-            joystickBackgroundAnchor.position = new Vector3(panGesture.StartFocusX, panGesture.StartFocusY, joystickBackgroundAnchor.position.z);
-            panBeganPosition = joystickBackgroundAnchor.position;
+            horizontalVirtualAxis.Update(0.0f);
+            verticalVirtualAxis.Update(0.0f);
         }
 
         private void HandlePanExecutingGesture(GestureRecognizer panGesture)
         {
-            var unitsX = DeviceInfo.PixelsToUnits(panGesture.DistanceX);
-            var unitsY = DeviceInfo.PixelsToUnits(panGesture.DistanceY);
-            var panX = Mathf.Sign(unitsX) * Mathf.Lerp(0.0f, 1.0f, Mathf.Abs(unitsX) / panUnitsForMaxMove);
-            var panY = Mathf.Sign(unitsY) * Mathf.Lerp(0.0f, 1.0f, Mathf.Abs(unitsY) / panUnitsForMaxMove);
+            var unitsX = DeviceInfo.PixelsToUnits(panGesture.DeltaX);
+            var unitsY = DeviceInfo.PixelsToUnits(panGesture.DeltaY);
 
-            horizontalVirtualAxis.Update(panX);
-            verticalVirtualAxis.Update(panY);
-
-            var pan = new Vector2(panGesture.DistanceX, panGesture.DistanceY);
-            var panMagnitude = pan.magnitude;
-
-            if (panMagnitude > DeviceInfo.UnitsToPixels(panUnitsForMaxMove))
-            {
-                pan = pan.normalized * DeviceInfo.UnitsToPixels(panUnitsForMaxMove);
-            }
-            joystickForegroundAnchor.position = panBeganPosition + pan;
+            horizontalVirtualAxis.Update(unitsX);
+            verticalVirtualAxis.Update(unitsY);
         }
 
         private void HandlePanEndedOrFailedGesture()
         {
-            joystickBackgroundAnchor.position = initialJoystickBackgroundPosition;
-            joystickForegroundAnchor.position = initialJoystickForegroundPosition;
-
             horizontalVirtualAxis.Update(0.0f);
             verticalVirtualAxis.Update(0.0f);
         }

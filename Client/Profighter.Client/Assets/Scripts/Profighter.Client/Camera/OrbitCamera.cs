@@ -79,7 +79,7 @@ namespace Profighter.Client.Camera
             _currentFollowPosition = FollowTransform.position;
         }
 
-        public void UpdateWithInput(float deltaTime, float zoomInput, Vector3 rotationInput)
+        public void UpdateWithInput(float deltaTime, Vector3 rotationInput)
         {
             if (FollowTransform)
             {
@@ -105,14 +105,6 @@ namespace Profighter.Client.Camera
 
                 // Apply rotation
                 Transform.rotation = targetRotation;
-
-                // Process distance input
-                if (_distanceIsObstructed && Mathf.Abs(zoomInput) > 0f)
-                {
-                    TargetDistance = _currentDistance;
-                }
-                TargetDistance += zoomInput * DistanceMovementSpeed;
-                TargetDistance = Mathf.Clamp(TargetDistance, MinDistance, MaxDistance);
 
                 // Find the smoothed follow position
                 _currentFollowPosition = Vector3.Lerp(_currentFollowPosition, FollowTransform.position, 1f - Mathf.Exp(-FollowingSharpness * deltaTime));

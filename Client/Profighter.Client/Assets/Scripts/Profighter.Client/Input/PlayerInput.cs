@@ -2,6 +2,7 @@
 using Profighter.Client.Camera;
 using Profighter.Client.Character;
 using UnityEngine;
+using UnityStandardAssets.CrossPlatformInput;
 using CharacterController = Profighter.Client.Character.CharacterController;
 
 namespace Profighter.Client.Input
@@ -11,37 +12,26 @@ namespace Profighter.Client.Input
         public CharacterController Character;
         public OrbitCamera CharacterCamera;
 
-        private const string MouseXInput = "Mouse X";
-        private const string MouseYInput = "Mouse Y";
-        private const string MouseScrollInput = "Mouse ScrollWheel";
-        private const string HorizontalInput = "Horizontal";
-        private const string VerticalInput = "Vertical";
+        private const string RotationXInput = "RotationX";
+        private const string RotationYInput = "RotationY";
+        private const string HorizontalInput = "MovementHorizontal";
+        private const string VerticalInput = "MovementVertical";
 
         private void Start()
         {
-            Cursor.lockState = CursorLockMode.Locked;
-
-            // Tell camera to follow transform
             CharacterCamera.SetFollowTransform(Character.CameraFollowPoint);
 
-            // Ignore the character's collider(s) for camera obstruction checks
             CharacterCamera.IgnoredColliders.Clear();
             CharacterCamera.IgnoredColliders.AddRange(Character.GetComponentsInChildren<Collider>());
         }
 
         private void Update()
         {
-            if (UnityEngine.Input.GetMouseButtonDown(0))
-            {
-                Cursor.lockState = CursorLockMode.Locked;
-            }
-
             HandleCharacterInput();
         }
 
         private void LateUpdate()
         {
-            // Handle rotating the camera along with physics movers
             if (CharacterCamera.RotateWithPhysicsMover && Character.Motor.AttachedRigidbody != null)
             {
                 CharacterCamera.PlanarDirection = Character.Motor.AttachedRigidbody.GetComponent<PhysicsMover>().RotationDeltaFromInterpolation * CharacterCamera.PlanarDirection;
@@ -54,45 +44,25 @@ namespace Profighter.Client.Input
         private void HandleCameraInput()
         {
             // Create the look input vector for the camera
-            float mouseLookAxisUp = UnityEngine.Input.GetAxisRaw(MouseYInput);
-            float mouseLookAxisRight = UnityEngine.Input.GetAxisRaw(MouseXInput);
+            float mouseLookAxisUp = CrossPlatformInputManager.GetAxisRaw(RotationYInput);
+            float mouseLookAxisRight = CrossPlatformInputManager.GetAxisRaw(RotationXInput);
+
             Vector3 lookInputVector = new Vector3(mouseLookAxisRight, mouseLookAxisUp, 0f);
 
-            // Prevent moving the camera while the cursor isn't locked
-            if (Cursor.lockState != CursorLockMode.Locked)
-            {
-                lookInputVector = Vector3.zero;
-            }
-
-            // Input for zooming the camera (disabled in WebGL because it can cause problems)
-            float scrollInput = -UnityEngine.Input.GetAxis(MouseScrollInput);
-#if UNITY_WEBGL
-        scrollInput = 0f;
-#endif
-
-            // Apply inputs to the camera
-            CharacterCamera.UpdateWithInput(Time.deltaTime, scrollInput, lookInputVector);
-
-            // Handle toggling zoom level
-            if (UnityEngine.Input.GetMouseButtonDown(1))
-            {
-                CharacterCamera.TargetDistance = (CharacterCamera.TargetDistance == 0f) ? CharacterCamera.DefaultDistance : 0f;
-            }
+            CharacterCamera.UpdateWithInput(Time.deltaTime, lookInputVector);
         }
 
         private void HandleCharacterInput()
         {
             PlayerCharacterInputs characterInputs = new PlayerCharacterInputs();
 
-            // Build the CharacterInputs struct
-            characterInputs.MoveAxisForward = UnityEngine.Input.GetAxisRaw(VerticalInput);
-            characterInputs.MoveAxisRight = UnityEngine.Input.GetAxisRaw(HorizontalInput);
+            characterInputs.MoveAxisForward = CrossPlatformInputManager.GetAxisRaw(VerticalInput);
+            characterInputs.MoveAxisRight = CrossPlatformInputManager.GetAxisRaw(HorizontalInput);
             characterInputs.CameraRotation = CharacterCamera.Transform.rotation;
             characterInputs.JumpDown = UnityEngine.Input.GetKeyDown(KeyCode.Space);
             characterInputs.CrouchDown = UnityEngine.Input.GetKeyDown(KeyCode.C);
             characterInputs.CrouchUp = UnityEngine.Input.GetKeyUp(KeyCode.C);
 
-            // Apply inputs to character
             Character.SetInputs(ref characterInputs);
         }
     }
