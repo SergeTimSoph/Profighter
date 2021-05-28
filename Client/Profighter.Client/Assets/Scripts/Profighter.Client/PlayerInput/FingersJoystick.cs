@@ -9,12 +9,14 @@ namespace Profighter.Client.PlayerInput
         [SerializeField]
         private GameObject panView;
         [SerializeField]
-        private RectTransform joystickBackgroundAnchor;
+        private RectTransform joystickBackgroundRect;
         [SerializeField]
-        private RectTransform joystickForegroundAnchor;
+        private RectTransform joystickForegroundRect;
+        [SerializeField]
+        private float joystickForegroundRectDiameterMultiplier = 0.3f;
 
         [SerializeField]
-        private float panUnitsForMaxMove = 1.5f;
+        private float panUnitsForMaxMove = 1f;
         [SerializeField]
         private float panGestureThresholdUnits = 0.1f;
 
@@ -39,11 +41,16 @@ namespace Profighter.Client.PlayerInput
 
         private void Start()
         {
-            var joystickBackgroundPosition = joystickBackgroundAnchor.position;
+            var joystickBackgroundDiameter = DeviceInfo.UnitsToPixels(panUnitsForMaxMove) * 2;
+            joystickBackgroundRect.sizeDelta = new Vector2(joystickBackgroundDiameter, joystickBackgroundDiameter);
+            var joystickForegroundDiameter = joystickBackgroundDiameter * joystickForegroundRectDiameterMultiplier;
+            joystickForegroundRect.sizeDelta = new Vector2(joystickForegroundDiameter, joystickForegroundDiameter);
+
+            var joystickBackgroundPosition = joystickBackgroundRect.position;
             panBeganPosition = joystickBackgroundPosition;
 
             initialJoystickBackgroundPosition = joystickBackgroundPosition;
-            initialJoystickForegroundPosition = joystickForegroundAnchor.position;
+            initialJoystickForegroundPosition = joystickForegroundRect.position;
         }
 
         private void CreateAndAddGestureRecognizer()
@@ -81,9 +88,9 @@ namespace Profighter.Client.PlayerInput
 
         private void HandlePanBeganGesture(GestureRecognizer panGesture)
         {
-            var joystickBackgroundPosition = joystickBackgroundAnchor.position;
+            var joystickBackgroundPosition = joystickBackgroundRect.position;
             joystickBackgroundPosition = new Vector3(panGesture.StartFocusX, panGesture.StartFocusY, joystickBackgroundPosition.z);
-            joystickBackgroundAnchor.position = joystickBackgroundPosition;
+            joystickBackgroundRect.position = joystickBackgroundPosition;
             panBeganPosition = joystickBackgroundPosition;
         }
 
@@ -104,13 +111,14 @@ namespace Profighter.Client.PlayerInput
             {
                 pan = pan.normalized * DeviceInfo.UnitsToPixels(panUnitsForMaxMove);
             }
-            joystickForegroundAnchor.position = panBeganPosition + pan;
+
+            joystickForegroundRect.position = panBeganPosition + pan;
         }
 
         private void HandlePanEndedOrFailedGesture()
         {
-            joystickBackgroundAnchor.position = initialJoystickBackgroundPosition;
-            joystickForegroundAnchor.position = initialJoystickForegroundPosition;
+            joystickBackgroundRect.position = initialJoystickBackgroundPosition;
+            joystickForegroundRect.position = initialJoystickForegroundPosition;
 
             horizontalVirtualAxis.Update(0.0f);
             verticalVirtualAxis.Update(0.0f);
