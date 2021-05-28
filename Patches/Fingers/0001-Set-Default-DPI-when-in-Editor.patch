@@ -1,0 +1,27 @@
+From d7da9b45c906a27005d563fccef15cefdff4827f Mon Sep 17 00:00:00 2001
+From: SergeTimSoph <sergetimsoph@gmail.com>
+Date: Fri, 28 May 2021 11:21:38 +0300
+Subject: [PATCH] Set Default DPI when in Editor
+
+---
+ .../ThirdParties/Fingers/Prefab/Script/FingersScript.cs       | 4 ++++
+ 1 file changed, 4 insertions(+)
+
+diff --git a/Client/Profighter.Client/Assets/ThirdParties/Fingers/Prefab/Script/FingersScript.cs b/Client/Profighter.Client/Assets/ThirdParties/Fingers/Prefab/Script/FingersScript.cs
+index 5dfe132..df9853b 100644
+--- a/Client/Profighter.Client/Assets/ThirdParties/Fingers/Prefab/Script/FingersScript.cs
++++ b/Client/Profighter.Client/Assets/ThirdParties/Fingers/Prefab/Script/FingersScript.cs
+@@ -1243,6 +1243,10 @@ namespace DigitalRubyShared
+                     Debug.LogError("Unable to determine DPI, using default DPI of " + DefaultDPI);
+             }
+ 
++            #if UNITY_EDITOR
++            DeviceInfo.UnitMultiplier = DeviceInfo.PixelsPerInch = DefaultDPI;
++            #endif
++
+             // set the main thread callback so gestures can callback after a delay
+             DigitalRubyShared.GestureRecognizer.MainThreadCallback = (float delay, System.Action callback) =>
+             {
+-- 
+2.28.0.windows.1
+
