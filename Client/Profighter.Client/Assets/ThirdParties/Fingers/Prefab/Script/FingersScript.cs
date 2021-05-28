@@ -1243,6 +1243,10 @@ namespace DigitalRubyShared
                     Debug.LogError("Unable to determine DPI, using default DPI of " + DefaultDPI);
             }
 
+            #if UNITY_EDITOR
+            DeviceInfo.UnitMultiplier = DeviceInfo.PixelsPerInch = DefaultDPI;
+            #endif
+
             // set the main thread callback so gestures can callback after a delay
             DigitalRubyShared.GestureRecognizer.MainThreadCallback = (float delay, System.Action callback) =>
             {
