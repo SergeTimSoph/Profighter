@@ -490,6 +490,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: CharacterControlsCanvas
       objectReference: {fileID: 0}
+    - target: {fileID: 1838308331689351083, guid: 425c6f796e1790346b433ac8ed93f631,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 425c6f796e1790346b433ac8ed93f631, type: 3}
 --- !u!1001 &872588036
@@ -568,6 +573,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Player
+      objectReference: {fileID: 0}
+    - target: {fileID: 6857772316852305974, guid: a63d2f5ff80310147969329f52e75b1c,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: a63d2f5ff80310147969329f52e75b1c, type: 3}
@@ -669,6 +679,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: FingersInput
       objectReference: {fileID: 0}
+    - target: {fileID: 3648667492964618247, guid: 5d7065796321445468979685e166a674,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 5d7065796321445468979685e166a674, type: 3}
 --- !u!1001 &1367536192
@@ -737,6 +752,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Main
+      objectReference: {fileID: 0}
+    - target: {fileID: 8363711872297215947, guid: 6c286802b992ca34bb7cc436d23d1329,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 6c286802b992ca34bb7cc436d23d1329, type: 3}
@@ -807,6 +827,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: OrbitCamera
       objectReference: {fileID: 0}
+    - target: {fileID: 7078211867882009963, guid: 971681c4b311d6a4fa1acc1e665a8e42,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 971681c4b311d6a4fa1acc1e665a8e42, type: 3}
 --- !u!114 &1781018073 stripped
@@ -863,6 +888,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: CharacterController
+      objectReference: {fileID: 0}
+    - target: {fileID: 7124955501661406425, guid: 65e9d3400d0928d439078fed652e2d54,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 7130731318811805899, guid: 65e9d3400d0928d439078fed652e2d54,
         type: 3}
