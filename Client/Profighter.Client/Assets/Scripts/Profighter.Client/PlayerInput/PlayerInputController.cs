@@ -55,18 +55,18 @@ namespace Profighter.Client.PlayerInput
         {
             PlayerCharacterInputs characterInputs = new PlayerCharacterInputs();
 
-            #if UNITY_EDITOR
-            characterInputs.MoveAxisForward = UnityEngine.Input.GetAxisRaw(VerticalInput);
-            characterInputs.MoveAxisRight = UnityEngine.Input.GetAxisRaw(HorizontalInput);
-            #else
+            //#if UNITY_EDITOR
+            //characterInputs.MoveAxisForward = UnityEngine.Input.GetAxisRaw(VerticalInput);
+            //characterInputs.MoveAxisRight = UnityEngine.Input.GetAxisRaw(HorizontalInput);
+            //#else
             characterInputs.MoveAxisForward = CrossPlatformInputManager.GetAxisRaw(VerticalInput);
             characterInputs.MoveAxisRight = CrossPlatformInputManager.GetAxisRaw(HorizontalInput);
-            #endif
+            //#endif
 
             characterInputs.CameraRotation = CharacterCamera.Transform.rotation;
-            characterInputs.JumpDown = UnityEngine.Input.GetKeyDown(KeyCode.Space);
+            /*characterInputs.JumpDown = UnityEngine.Input.GetKeyDown(KeyCode.Space);
             characterInputs.CrouchDown = UnityEngine.Input.GetKeyDown(KeyCode.C);
-            characterInputs.CrouchUp = UnityEngine.Input.GetKeyUp(KeyCode.C);
+            characterInputs.CrouchUp = UnityEngine.Input.GetKeyUp(KeyCode.C);*/
 
             Character.SetInputs(ref characterInputs);
         }
