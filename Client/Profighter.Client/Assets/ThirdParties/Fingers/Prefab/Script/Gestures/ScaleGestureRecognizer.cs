@@ -42,17 +42,7 @@ namespace DigitalRubyShared
         public ScaleGestureRecognizer()
         {
             ScaleMultiplier = ScaleMultiplierX = ScaleMultiplierY = 1.0f;
-
-#if UNITY_2017_4_OR_NEWER
-
-            ZoomSpeed = (UnityEngine.Input.mousePresent ? 3.0f : 1.0f);
-
-#else
-
-            ZoomSpeed = 1.0f;
-
-#endif
-
+            ZoomSpeed = (FingersScript.Instance.MousePresent ? 3.0f : 1.0f);
             ThresholdUnits = 0.15f;
             MinimumNumberOfTouchesToTrack = MaximumNumberOfTouchesToTrack = 2;
             timer.Start();

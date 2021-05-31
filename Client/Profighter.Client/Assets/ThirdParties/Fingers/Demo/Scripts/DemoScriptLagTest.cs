@@ -15,29 +15,30 @@ namespace DigitalRubyShared
 
         private void Update()
         {
-            if (Input.mousePresent)
+            if (FingersScript.Instance.MousePresent)
             {
-                if (Input.GetMouseButtonDown(0))
+                if (FingersScript.Instance.IsMouseDownThisFrame(0))
                 {
-                    CheckOffset(Input.mousePosition);
+                    CheckOffset(FingersScript.Instance.MousePosition);
                 }
-                else if (Input.GetMouseButton(0))
+                else if (FingersScript.Instance.IsMouseDown(0))
                 {
-                    transform.position = (Vector2)Input.mousePosition - offset;
+                    transform.position = FingersScript.Instance.MousePosition - offset;
                 }
                 else
                 {
                     offset = Vector2.zero;
                 }
             }
-            else if (Input.touchCount > 0)
+            else if (FingersScript.Instance.TouchCount > 0)
             {
-                Touch touch = Input.GetTouch(0);
-                if (touch.phase == UnityEngine.TouchPhase.Began)
+                DigitalRubyShared.GestureTouch touch = FingersScript.Instance.GetTouch(0);
+                Vector2 pos = new Vector2(touch.X, touch.Y);
+                if (touch.TouchPhase == DigitalRubyShared.TouchPhase.Began)
                 {
-                    CheckOffset(touch.position);
+                    CheckOffset(pos);
                 }
-                transform.position = touch.position - offset;
+                transform.position = pos - offset;
             }
             else
             {

@@ -2,7 +2,7 @@ Fingers, by Jeff Johnson
 Fingers (c) 2015-Present Digital Ruby, LLC
 https://www.digitalruby.com/unity-plugins/
 
-Version 3.0.0
+Version 3.0.1
 
 See ChangeLog.txt for history.
 
@@ -44,6 +44,7 @@ To get started, perform the following:
 For new Unity Input System package:
 - Define UNITY_INPUT_SYSTEM_V2 in scripting defines in player settings.
 - If you are supporting multiple touch screens/devices, you can set the DeviceId property on your gesture recognizer to limit the gesture to a specific device, or set to 0 for all devices.
+- Make sure you have imported the new input system package and enabled the new input backends (requires Unity restart).
 
 Fingers script has these properties:
 - Treat mouse pointer/wheel as finger (default is true, useful for testing in the player for some gestures). Disable this if you are using Unity Remote or are running on a touch screen like Surface Pro.

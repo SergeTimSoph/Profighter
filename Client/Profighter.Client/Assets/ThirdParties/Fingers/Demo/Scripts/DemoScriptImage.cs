@@ -53,31 +53,11 @@ namespace DigitalRubyShared
 
         private void LateUpdate()
         {
-
-#if UNITY_INPUT_SYSTEM_V2
-
-            if (UnityEngine.InputSystem.Keyboard.current.escapeKey.wasPressedThisFrame)
-
-#else
-
-            if (UnityEngine.Input.GetKeyDown(KeyCode.Escape))
-
-#endif
-
+            if (FingersScript.Instance.IsKeyDownThisFrame(KeyCode.Escape))
             {
                 ImageScript.Reset();
             }
-
-#if UNITY_INPUT_SYSTEM_V2
-
-            if (UnityEngine.InputSystem.Keyboard.current.spaceKey.wasPressedThisFrame)
-
-#else
-
-            if (UnityEngine.Input.GetKeyDown(KeyCode.Space))
-
-#endif
-
+            else if (FingersScript.Instance.IsKeyDownThisFrame(KeyCode.Space))
             {
                 ImageGestureImage match = ImageScript.CheckForImageMatch();
                 if (match != null)

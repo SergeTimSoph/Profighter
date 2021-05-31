@@ -48,16 +48,7 @@ namespace DigitalRubyShared
         private void Update()
         {
             // ESC reloads the scene
-#if UNITY_INPUT_SYSTEM_V2
-
-            if (UnityEngine.InputSystem.Keyboard.current.escapeKey.wasPressedThisFrame)
-
-#else
-
-            if (UnityEngine.Input.GetKeyDown(KeyCode.Escape))
-
-#endif
-
+            if (FingersScript.Instance.IsKeyDownThisFrame(KeyCode.Escape))
             {
                 UnityEngine.SceneManagement.SceneManager.LoadScene(0, UnityEngine.SceneManagement.LoadSceneMode.Single);
                 return;

@@ -67,15 +67,15 @@ namespace DigitalRubyShared
         private void ProcessMouse()
         {
             // TODO: Remove this method for your own script
-            if (Input.GetMouseButtonDown(0))
+            if (FingersScript.Instance.IsMouseDownThisFrame(0))
             {
                 AddTouch(mouseTouchId, Input.mousePosition, UnityEngine.TouchPhase.Began);
             }
-            else if (Input.GetMouseButtonUp(0))
+            else if (FingersScript.Instance.IsMouseUpThisFrame(0))
             {
                 AddTouch(mouseTouchId, Input.mousePosition, UnityEngine.TouchPhase.Ended);
             }
-            else if (Input.GetMouseButton(0))
+            else if (FingersScript.Instance.IsMouseDown(0))
             {
                 AddTouch(mouseTouchId, Input.mousePosition, UnityEngine.TouchPhase.Moved);
             }

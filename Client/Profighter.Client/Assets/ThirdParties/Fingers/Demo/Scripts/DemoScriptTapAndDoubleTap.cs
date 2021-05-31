@@ -72,17 +72,7 @@ namespace DigitalRubyShared
 
         private void Update()
         {
-
-#if UNITY_INPUT_SYSTEM_V2
-
-            if (UnityEngine.InputSystem.Keyboard.current.dKey.wasPressedThisFrame)
-
-#else
-
-            if (UnityEngine.Input.GetKeyDown(KeyCode.D))
-
-#endif
-
+            if (FingersScript.Instance.IsKeyDownThisFrame(KeyCode.D))
             {
                 tapGesture.Enabled = !tapGesture.Enabled;
                 Debug.Log("Tap gesture enabled: " + tapGesture.Enabled);

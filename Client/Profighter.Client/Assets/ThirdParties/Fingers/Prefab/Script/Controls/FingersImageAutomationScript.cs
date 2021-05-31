@@ -273,28 +273,9 @@ namespace DigitalRubyShared
         /// </summary>
         protected virtual void Update()
         {
-
-#if UNITY_INPUT_SYSTEM_V2
-
-            if (UnityEngine.InputSystem.Keyboard.current.escapeKey.wasPressedThisFrame)
-
-#else
-
-            if (UnityEngine.Input.GetKeyDown(KeyCode.Escape))
-
-#endif
-
+            if (FingersScript.Instance.IsKeyDownThisFrame(KeyCode.Escape))
             {
-
-#if UNITY_INPUT_SYSTEM_V2
-
-                if (UnityEngine.InputSystem.Keyboard.current.leftShiftKey.isPressed)
-
-#else
-
-                if (UnityEngine.Input.GetKey(KeyCode.LeftShift))
-
-#endif
+                if (FingersScript.Instance.IsKeyDownThisFrame(KeyCode.LeftShift))
                 {
                     UnityEngine.SceneManagement.SceneManager.LoadScene(0);
                 }
@@ -303,7 +284,7 @@ namespace DigitalRubyShared
                     ResetLines();
                 }
             }
-            else if (UnityEngine.Input.GetKey(KeyCode.Space))
+            else if (FingersScript.Instance.IsKeyDownThisFrame(KeyCode.Space))
             {
                 if (lineSet.Count != 0)
                 {

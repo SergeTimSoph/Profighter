@@ -389,17 +389,7 @@ namespace DigitalRubyShared
 
         private void Update()
         {
-
-#if UNITY_INPUT_SYSTEM_V2
-
-            if (UnityEngine.InputSystem.Keyboard.current.escapeKey.wasPressedThisFrame)
-
-#else
-
-            if (UnityEngine.Input.GetKeyDown(KeyCode.Escape))
-
-#endif
-
+            if (FingersScript.Instance.IsKeyDownThisFrame(KeyCode.Escape))
             {
                 ReloadDemoScene();
             }
@@ -413,12 +403,12 @@ namespace DigitalRubyShared
                 CreateAsteroid(float.MinValue, float.MinValue);
             }
 
-            int touchCount = UnityEngine.Input.touchCount;
-            if (FingersScript.Instance.TreatMousePointerAsFinger && UnityEngine.Input.mousePresent)
+            int touchCount = FingersScript.Instance.TouchCount;
+            if (FingersScript.Instance.TreatMousePointerAsFinger && FingersScript.Instance.MousePresent)
             {
-                touchCount += (UnityEngine.Input.GetMouseButton(0) ? 1 : 0);
-                touchCount += (UnityEngine.Input.GetMouseButton(1) ? 1 : 0);
-                touchCount += (UnityEngine.Input.GetMouseButton(2) ? 1 : 0);
+                touchCount += (FingersScript.Instance.IsMouseDown(0) ? 1 : 0);
+                touchCount += (FingersScript.Instance.IsMouseDown(1) ? 1 : 0);
+                touchCount += (FingersScript.Instance.IsMouseDown(2) ? 1 : 0);
             }
             string touchIds = string.Empty;
             int gestureTouchCount = 0;

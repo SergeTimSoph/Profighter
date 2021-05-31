@@ -363,18 +363,18 @@ namespace DigitalRubyShared
                 case RuntimePlatform.WindowsEditor:
                 case RuntimePlatform.OSXPlayer:
                 case RuntimePlatform.OSXEditor:
-                    if (currentTarget != null && UnityEngine.Input.GetMouseButtonDown(1))
+                    if (currentTarget != null && FingersScript.Instance.IsMouseDownThisFrame(1))
                     {
                         orbitTarget = currentTarget.position;
-                        prevMouseX = UnityEngine.Input.mousePosition.x;
+                        prevMouseX = FingersScript.Instance.MousePosition.x;
                     }
-                    else if (UnityEngine.Input.GetMouseButtonUp(1))
+                    else if (FingersScript.Instance.IsMouseUpThisFrame(1))
                     {
                         orbitTarget = null;
                     }
                     if (orbitTarget != null)
                     {
-                        Camera.transform.RotateAround(orbitTarget.Value, Vector3.up, (UnityEngine.Input.mousePosition.x - prevMouseX) * Time.deltaTime * OrbitSpeed);
+                        Camera.transform.RotateAround(orbitTarget.Value, Vector3.up, (FingersScript.Instance.MousePosition.x - prevMouseX) * Time.deltaTime * OrbitSpeed);
                     }
                     break;
             }

@@ -56,10 +56,10 @@ namespace DigitalRubyShared
         /// <summary>True to treat the mouse as a finger, false otherwise. Left, middle and right mouse buttons can be used as individual fingers and will all have the same location.</summary>
         [Tooltip("True to treat the mouse as a finger, false otherwise. Left, middle and right mouse buttons can be used as individual fingers and will all have the same location.")]
         public bool TreatMousePointerAsFinger = true;
-		
-		/// <summary>True to treat the mouse wheel as two fingers for rotation and scaling, false otherwise.</summary>
-		[Tooltip("True to treat the mouse wheel as two fingers for rotation and scaling, false otherwise.")]
-		public bool TreatMouseWheelAsFingers = true;
+
+        /// <summary>True to treat the mouse wheel as two fingers for rotation and scaling, false otherwise.</summary>
+        [Tooltip("True to treat the mouse wheel as two fingers for rotation and scaling, false otherwise.")]
+        public bool TreatMouseWheelAsFingers = true;
 
         /// <summary>Whether to treat touches as mouse pointer? This needs to be set before the script Awake method is called.</summary>
         [Tooltip("Whether to treat touches as mouse pointer? This needs to be set before the script Awake method is called.")]
@@ -204,6 +204,14 @@ namespace DigitalRubyShared
         private GestureTouch rotatePinch1;
         private GestureTouch rotatePinch2;
         private System.DateTime lastMouseWheelTime;
+        private Vector2 mousePosition;
+        private int touchCount;
+
+#if UNITY_INPUT_SYSTEM_V2
+
+        private static readonly Dictionary<UnityEngine.KeyCode, UnityEngine.InputSystem.Key> keyCodeMappings = new Dictionary<KeyCode, UnityEngine.InputSystem.Key>();
+
+#endif
 
         private static FingersScript singleton;
 
@@ -234,6 +242,155 @@ namespace DigitalRubyShared
         {
             public GameObject GameObject { get; set; }
             public float Timestamp { get; set; }
+        }
+
+        static FingersScript()
+        {
+
+#if UNITY_INPUT_SYSTEM_V2
+
+            keyCodeMappings.Add(UnityEngine.KeyCode.None, UnityEngine.InputSystem.Key.None);
+            keyCodeMappings.Add(UnityEngine.KeyCode.Backspace, UnityEngine.InputSystem.Key.Backspace);
+            keyCodeMappings.Add(UnityEngine.KeyCode.Tab, UnityEngine.InputSystem.Key.Tab);
+            //keyCodeMappings.Add(UnityEngine.KeyCode.Clear, UnityEngine.InputSystem.Key.Clear);
+            keyCodeMappings.Add(UnityEngine.KeyCode.Return, UnityEngine.InputSystem.Key.Enter);
+            keyCodeMappings.Add(UnityEngine.KeyCode.Pause, UnityEngine.InputSystem.Key.Pause);
+            keyCodeMappings.Add(UnityEngine.KeyCode.Escape, UnityEngine.InputSystem.Key.Escape);
+            keyCodeMappings.Add(UnityEngine.KeyCode.Space, UnityEngine.InputSystem.Key.Space);
+            //keyCodeMappings.Add(UnityEngine.KeyCode.Exclaim, UnityEngine.InputSystem.Key.Exclaim);
+            //keyCodeMappings.Add(UnityEngine.KeyCode.DoubleQuote, UnityEngine.InputSystem.Key.DoubleQuote);
+            //keyCodeMappings.Add(UnityEngine.KeyCode.Hash, UnityEngine.InputSystem.Key.Hash);
+            //keyCodeMappings.Add(UnityEngine.KeyCode.Dollar, UnityEngine.InputSystem.Key.Dollar);
+            //keyCodeMappings.Add(UnityEngine.KeyCode.Percent, UnityEngine.InputSystem.Key.Percent);
+            //keyCodeMappings.Add(UnityEngine.KeyCode.Ampersand, UnityEngine.InputSystem.Key.Ampersand);
+            keyCodeMappings.Add(UnityEngine.KeyCode.Quote, UnityEngine.InputSystem.Key.Quote);
+            //keyCodeMappings.Add(UnityEngine.KeyCode.LeftParen, UnityEngine.InputSystem.Key.LeftParen);
+            //keyCodeMappings.Add(UnityEngine.KeyCode.RightParen, UnityEngine.InputSystem.Key.RightParen);
+            //keyCodeMappings.Add(UnityEngine.KeyCode.Asterisk, UnityEngine.InputSystem.Key.Asterisk);
+            //keyCodeMappings.Add(UnityEngine.KeyCode.Plus, UnityEngine.InputSystem.Key.Plus);
+            keyCodeMappings.Add(UnityEngine.KeyCode.Comma, UnityEngine.InputSystem.Key.Comma);
+            keyCodeMappings.Add(UnityEngine.KeyCode.Minus, UnityEngine.InputSystem.Key.Minus);
+            keyCodeMappings.Add(UnityEngine.KeyCode.Period, UnityEngine.InputSystem.Key.Period);
+            keyCodeMappings.Add(UnityEngine.KeyCode.Slash, UnityEngine.InputSystem.Key.Slash);
+            keyCodeMappings.Add(UnityEngine.KeyCode.Alpha0, UnityEngine.InputSystem.Key.Digit0);
+            keyCodeMappings.Add(UnityEngine.KeyCode.Alpha1, UnityEngine.InputSystem.Key.Digit1);
+            keyCodeMappings.Add(UnityEngine.KeyCode.Alpha2, UnityEngine.InputSystem.Key.Digit2);
+            keyCodeMappings.Add(UnityEngine.KeyCode.Alpha3, UnityEngine.InputSystem.Key.Digit3);
+            keyCodeMappings.Add(UnityEngine.KeyCode.Alpha4, UnityEngine.InputSystem.Key.Digit4);
+            keyCodeMappings.Add(UnityEngine.KeyCode.Alpha5, UnityEngine.InputSystem.Key.Digit5);
+            keyCodeMappings.Add(UnityEngine.KeyCode.Alpha6, UnityEngine.InputSystem.Key.Digit6);
+            keyCodeMappings.Add(UnityEngine.KeyCode.Alpha7, UnityEngine.InputSystem.Key.Digit7);
+            keyCodeMappings.Add(UnityEngine.KeyCode.Alpha8, UnityEngine.InputSystem.Key.Digit8);
+            keyCodeMappings.Add(UnityEngine.KeyCode.Alpha9, UnityEngine.InputSystem.Key.Digit9);
+            //keyCodeMappings.Add(UnityEngine.KeyCode.Colon, UnityEngine.InputSystem.Key.Colon);
+            keyCodeMappings.Add(UnityEngine.KeyCode.Semicolon, UnityEngine.InputSystem.Key.Semicolon);
+            //keyCodeMappings.Add(UnityEngine.KeyCode.Less, UnityEngine.InputSystem.Key.Less);
+            keyCodeMappings.Add(UnityEngine.KeyCode.Equals, UnityEngine.InputSystem.Key.Equals);
+            //keyCodeMappings.Add(UnityEngine.KeyCode.Greater, UnityEngine.InputSystem.Key.Greater);
+            //keyCodeMappings.Add(UnityEngine.KeyCode.Question, UnityEngine.InputSystem.Key.Question);
+            //keyCodeMappings.Add(UnityEngine.KeyCode.At, UnityEngine.InputSystem.Key.At);
+            keyCodeMappings.Add(UnityEngine.KeyCode.LeftBracket, UnityEngine.InputSystem.Key.LeftBracket);
+            keyCodeMappings.Add(UnityEngine.KeyCode.Backslash, UnityEngine.InputSystem.Key.Backslash);
+            keyCodeMappings.Add(UnityEngine.KeyCode.RightBracket, UnityEngine.InputSystem.Key.RightBracket);
+            //keyCodeMappings.Add(UnityEngine.KeyCode.Caret, UnityEngine.InputSystem.Key.Caret);
+            //keyCodeMappings.Add(UnityEngine.KeyCode.Underscore, UnityEngine.InputSystem.Key.Underscore);
+            //keyCodeMappings.Add(UnityEngine.KeyCode.BackQuote, UnityEngine.InputSystem.Key.BackQuote);
+            keyCodeMappings.Add(UnityEngine.KeyCode.A, UnityEngine.InputSystem.Key.A);
+            keyCodeMappings.Add(UnityEngine.KeyCode.B, UnityEngine.InputSystem.Key.B);
+            keyCodeMappings.Add(UnityEngine.KeyCode.C, UnityEngine.InputSystem.Key.C);
+            keyCodeMappings.Add(UnityEngine.KeyCode.D, UnityEngine.InputSystem.Key.D);
+            keyCodeMappings.Add(UnityEngine.KeyCode.E, UnityEngine.InputSystem.Key.E);
+            keyCodeMappings.Add(UnityEngine.KeyCode.F, UnityEngine.InputSystem.Key.F);
+            keyCodeMappings.Add(UnityEngine.KeyCode.G, UnityEngine.InputSystem.Key.G);
+            keyCodeMappings.Add(UnityEngine.KeyCode.H, UnityEngine.InputSystem.Key.H);
+            keyCodeMappings.Add(UnityEngine.KeyCode.I, UnityEngine.InputSystem.Key.I);
+            keyCodeMappings.Add(UnityEngine.KeyCode.J, UnityEngine.InputSystem.Key.J);
+            keyCodeMappings.Add(UnityEngine.KeyCode.K, UnityEngine.InputSystem.Key.K);
+            keyCodeMappings.Add(UnityEngine.KeyCode.L, UnityEngine.InputSystem.Key.L);
+            keyCodeMappings.Add(UnityEngine.KeyCode.M, UnityEngine.InputSystem.Key.M);
+            keyCodeMappings.Add(UnityEngine.KeyCode.N, UnityEngine.InputSystem.Key.N);
+            keyCodeMappings.Add(UnityEngine.KeyCode.O, UnityEngine.InputSystem.Key.O);
+            keyCodeMappings.Add(UnityEngine.KeyCode.P, UnityEngine.InputSystem.Key.P);
+            keyCodeMappings.Add(UnityEngine.KeyCode.Q, UnityEngine.InputSystem.Key.Q);
+            keyCodeMappings.Add(UnityEngine.KeyCode.R, UnityEngine.InputSystem.Key.R);
+            keyCodeMappings.Add(UnityEngine.KeyCode.S, UnityEngine.InputSystem.Key.S);
+            keyCodeMappings.Add(UnityEngine.KeyCode.T, UnityEngine.InputSystem.Key.T);
+            keyCodeMappings.Add(UnityEngine.KeyCode.U, UnityEngine.InputSystem.Key.U);
+            keyCodeMappings.Add(UnityEngine.KeyCode.V, UnityEngine.InputSystem.Key.V);
+            keyCodeMappings.Add(UnityEngine.KeyCode.W, UnityEngine.InputSystem.Key.W);
+            keyCodeMappings.Add(UnityEngine.KeyCode.X, UnityEngine.InputSystem.Key.X);
+            keyCodeMappings.Add(UnityEngine.KeyCode.Y, UnityEngine.InputSystem.Key.Y);
+            keyCodeMappings.Add(UnityEngine.KeyCode.Z, UnityEngine.InputSystem.Key.Z);
+            //keyCodeMappings.Add(UnityEngine.KeyCode.LeftCurlyBracket, UnityEngine.InputSystem.Key.LeftCurlyBracket);
+            //keyCodeMappings.Add(UnityEngine.KeyCode.Pipe, UnityEngine.InputSystem.Key.Pipe);
+            //keyCodeMappings.Add(UnityEngine.KeyCode.RightCurlyBracket, UnityEngine.InputSystem.Key.RightCurlyBracket);
+            //keyCodeMappings.Add(UnityEngine.KeyCode.Tilde, UnityEngine.InputSystem.Key.Tilde);
+            keyCodeMappings.Add(UnityEngine.KeyCode.Delete, UnityEngine.InputSystem.Key.Delete);
+            keyCodeMappings.Add(UnityEngine.KeyCode.Keypad0, UnityEngine.InputSystem.Key.Numpad0);
+            keyCodeMappings.Add(UnityEngine.KeyCode.Keypad1, UnityEngine.InputSystem.Key.Numpad1);
+            keyCodeMappings.Add(UnityEngine.KeyCode.Keypad2, UnityEngine.InputSystem.Key.Numpad2);
+            keyCodeMappings.Add(UnityEngine.KeyCode.Keypad3, UnityEngine.InputSystem.Key.Numpad3);
+            keyCodeMappings.Add(UnityEngine.KeyCode.Keypad4, UnityEngine.InputSystem.Key.Numpad4);
+            keyCodeMappings.Add(UnityEngine.KeyCode.Keypad5, UnityEngine.InputSystem.Key.Numpad5);
+            keyCodeMappings.Add(UnityEngine.KeyCode.Keypad6, UnityEngine.InputSystem.Key.Numpad6);
+            keyCodeMappings.Add(UnityEngine.KeyCode.Keypad7, UnityEngine.InputSystem.Key.Numpad7);
+            keyCodeMappings.Add(UnityEngine.KeyCode.Keypad8, UnityEngine.InputSystem.Key.Numpad8);
+            keyCodeMappings.Add(UnityEngine.KeyCode.Keypad9, UnityEngine.InputSystem.Key.Numpad9);
+            //keyCodeMappings.Add(UnityEngine.KeyCode.KeypadPeriod, UnityEngine.InputSystem.Key.KeypadPeriod);
+            //keyCodeMappings.Add(UnityEngine.KeyCode.KeypadDivide, UnityEngine.InputSystem.Key.KeypadDivide);
+            //keyCodeMappings.Add(UnityEngine.KeyCode.KeypadMultiply, UnityEngine.InputSystem.Key.KeypadMultiply);
+            //keyCodeMappings.Add(UnityEngine.KeyCode.KeypadMinus, UnityEngine.InputSystem.Key.KeypadMinus);
+            //keyCodeMappings.Add(UnityEngine.KeyCode.KeypadPlus, UnityEngine.InputSystem.Key.KeypadPlus);
+            //keyCodeMappings.Add(UnityEngine.KeyCode.KeypadEnter, UnityEngine.InputSystem.Key.KeypadEnter);
+            //keyCodeMappings.Add(UnityEngine.KeyCode.KeypadEquals, UnityEngine.InputSystem.Key.KeypadEquals);
+            keyCodeMappings.Add(UnityEngine.KeyCode.UpArrow, UnityEngine.InputSystem.Key.UpArrow);
+            keyCodeMappings.Add(UnityEngine.KeyCode.DownArrow, UnityEngine.InputSystem.Key.DownArrow);
+            keyCodeMappings.Add(UnityEngine.KeyCode.RightArrow, UnityEngine.InputSystem.Key.RightArrow);
+            keyCodeMappings.Add(UnityEngine.KeyCode.LeftArrow, UnityEngine.InputSystem.Key.LeftArrow);
+            keyCodeMappings.Add(UnityEngine.KeyCode.Insert, UnityEngine.InputSystem.Key.Insert);
+            keyCodeMappings.Add(UnityEngine.KeyCode.Home, UnityEngine.InputSystem.Key.Home);
+            keyCodeMappings.Add(UnityEngine.KeyCode.End, UnityEngine.InputSystem.Key.End);
+            keyCodeMappings.Add(UnityEngine.KeyCode.PageUp, UnityEngine.InputSystem.Key.PageUp);
+            keyCodeMappings.Add(UnityEngine.KeyCode.PageDown, UnityEngine.InputSystem.Key.PageDown);
+            keyCodeMappings.Add(UnityEngine.KeyCode.F1, UnityEngine.InputSystem.Key.F1);
+            keyCodeMappings.Add(UnityEngine.KeyCode.F2, UnityEngine.InputSystem.Key.F2);
+            keyCodeMappings.Add(UnityEngine.KeyCode.F3, UnityEngine.InputSystem.Key.F3);
+            keyCodeMappings.Add(UnityEngine.KeyCode.F4, UnityEngine.InputSystem.Key.F4);
+            keyCodeMappings.Add(UnityEngine.KeyCode.F5, UnityEngine.InputSystem.Key.F5);
+            keyCodeMappings.Add(UnityEngine.KeyCode.F6, UnityEngine.InputSystem.Key.F6);
+            keyCodeMappings.Add(UnityEngine.KeyCode.F7, UnityEngine.InputSystem.Key.F7);
+            keyCodeMappings.Add(UnityEngine.KeyCode.F8, UnityEngine.InputSystem.Key.F8);
+            keyCodeMappings.Add(UnityEngine.KeyCode.F9, UnityEngine.InputSystem.Key.F9);
+            keyCodeMappings.Add(UnityEngine.KeyCode.F10, UnityEngine.InputSystem.Key.F10);
+            keyCodeMappings.Add(UnityEngine.KeyCode.F11, UnityEngine.InputSystem.Key.F11);
+            keyCodeMappings.Add(UnityEngine.KeyCode.F12, UnityEngine.InputSystem.Key.F12);
+            //keyCodeMappings.Add(UnityEngine.KeyCode.F13, UnityEngine.InputSystem.Key.F13);
+            //keyCodeMappings.Add(UnityEngine.KeyCode.F14, UnityEngine.InputSystem.Key.F14);
+            //keyCodeMappings.Add(UnityEngine.KeyCode.F15, UnityEngine.InputSystem.Key.F15);
+            keyCodeMappings.Add(UnityEngine.KeyCode.Numlock, UnityEngine.InputSystem.Key.NumLock);
+            keyCodeMappings.Add(UnityEngine.KeyCode.CapsLock, UnityEngine.InputSystem.Key.CapsLock);
+            keyCodeMappings.Add(UnityEngine.KeyCode.ScrollLock, UnityEngine.InputSystem.Key.ScrollLock);
+            keyCodeMappings.Add(UnityEngine.KeyCode.RightShift, UnityEngine.InputSystem.Key.RightShift);
+            keyCodeMappings.Add(UnityEngine.KeyCode.LeftShift, UnityEngine.InputSystem.Key.LeftShift);
+            keyCodeMappings.Add(UnityEngine.KeyCode.RightControl, UnityEngine.InputSystem.Key.RightCtrl);
+            keyCodeMappings.Add(UnityEngine.KeyCode.LeftControl, UnityEngine.InputSystem.Key.LeftCtrl);
+            keyCodeMappings.Add(UnityEngine.KeyCode.RightAlt, UnityEngine.InputSystem.Key.RightAlt);
+            keyCodeMappings.Add(UnityEngine.KeyCode.LeftAlt, UnityEngine.InputSystem.Key.LeftAlt);
+            keyCodeMappings.Add(UnityEngine.KeyCode.RightCommand, UnityEngine.InputSystem.Key.RightCommand);
+            //keyCodeMappings.Add(UnityEngine.KeyCode.RightApple, UnityEngine.InputSystem.Key.RightApple);
+            keyCodeMappings.Add(UnityEngine.KeyCode.LeftCommand, UnityEngine.InputSystem.Key.LeftCommand);
+            //keyCodeMappings.Add(UnityEngine.KeyCode.LeftApple, UnityEngine.InputSystem.Key.LeftApple);
+            keyCodeMappings.Add(UnityEngine.KeyCode.LeftWindows, UnityEngine.InputSystem.Key.LeftWindows);
+            keyCodeMappings.Add(UnityEngine.KeyCode.RightWindows, UnityEngine.InputSystem.Key.RightWindows);
+            keyCodeMappings.Add(UnityEngine.KeyCode.AltGr, UnityEngine.InputSystem.Key.AltGr);
+            //keyCodeMappings.Add(UnityEngine.KeyCode.Help, UnityEngine.InputSystem.Key.Help);
+            //keyCodeMappings.Add(UnityEngine.KeyCode.Print, UnityEngine.InputSystem.Key.Print);
+            //keyCodeMappings.Add(UnityEngine.KeyCode.SysReq, UnityEngine.InputSystem.Key.SysReq);
+            //keyCodeMappings.Add(UnityEngine.KeyCode.Break, UnityEngine.InputSystem.Key.Break);
+            //keyCodeMappings.Add(UnityEngine.KeyCode.Menu, UnityEngine.InputSystem.Key.Menu);
+
+#endif
+
         }
 
         private IEnumerator MainThreadCallback(float delay, System.Action action)
@@ -425,7 +582,8 @@ namespace DigitalRubyShared
 
 #if UNITY_INPUT_SYSTEM_V2
 
-        private GestureTouch GestureTouchFromTouch(UnityEngine.InputSystem.Controls.TouchControl t)
+        private GestureTouch GestureTouchFromTouch(UnityEngine.InputSystem.Controls.TouchControl t,
+            UnityEngine.InputSystem.TouchPhase unityPhase)
         {
             // convert Unity touch to Gesture touch
             Vector2 prev;
@@ -439,8 +597,8 @@ namespace DigitalRubyShared
                 prev.x = x;
                 prev.y = y;
             }
-            TouchPhase phase;
-            switch (t.phase.ReadValue())
+            DigitalRubyShared.TouchPhase phase;
+            switch (unityPhase)
             {
                 case UnityEngine.InputSystem.TouchPhase.Began:
                     phase = TouchPhase.Began;
@@ -584,14 +742,10 @@ namespace DigitalRubyShared
             // Debug.Log (d);
         }
 
-        private void AddMouseTouch(int index, int pointerId)
-        {
-            TouchPhase phase;
-
 #if UNITY_INPUT_SYSTEM_V2
 
-            float x = UnityEngine.InputSystem.Mouse.current.position.x.ReadValue();
-            float y = UnityEngine.InputSystem.Mouse.current.position.y.ReadValue();
+        private UnityEngine.InputSystem.Controls.ButtonControl GetMouseButton(int index)
+        {
             UnityEngine.InputSystem.Controls.ButtonControl mouseButton;
             switch (index)
             {
@@ -600,6 +754,22 @@ namespace DigitalRubyShared
                 case 2: mouseButton = UnityEngine.InputSystem.Mouse.current.rightButton; break;
                 default: throw new System.ArgumentException("Invalid mous button index " + index);
             }
+            return mouseButton;
+        }
+
+#endif
+
+
+        private void AddMouseTouch(int index, int pointerId)
+        {
+            TouchPhase phase;
+
+#if UNITY_INPUT_SYSTEM_V2
+
+            float x = UnityEngine.InputSystem.Mouse.current.position.x.ReadValue();
+            float y = UnityEngine.InputSystem.Mouse.current.position.y.ReadValue();
+            mousePosition = new Vector2(x, y);
+            UnityEngine.InputSystem.Controls.ButtonControl mouseButton = GetMouseButton(index);
             if (mouseButton.wasPressedThisFrame)
             {
                 phase = TouchPhase.Began;
@@ -617,6 +787,7 @@ namespace DigitalRubyShared
 
             float x = UnityEngine.Input.mousePosition.x;
             float y = UnityEngine.Input.mousePosition.y;
+            mousePosition = new Vector2(x, y);
 
             if (UnityEngine.Input.GetMouseButtonDown(index))
             {
@@ -653,6 +824,7 @@ namespace DigitalRubyShared
 
         private void ProcessTouches()
         {
+            touchCount = 0;
 
 #if UNITY_INPUT_SYSTEM_V2
 
@@ -662,8 +834,13 @@ namespace DigitalRubyShared
                 {
                     foreach (var touch in touchScreen.touches)
                     {
-                        GestureTouch gestureTouch = GestureTouchFromTouch(touch);
-                        FingersProcessTouch(ref gestureTouch);
+                        var inputPhase = touch.phase.ReadValue();
+                        if (inputPhase != UnityEngine.InputSystem.TouchPhase.None)
+                        {
+                            GestureTouch gestureTouch = GestureTouchFromTouch(touch, inputPhase);
+                            touchCount++;
+                            FingersProcessTouch(ref gestureTouch);
+                        }
                     }
                 }
             }
@@ -671,6 +848,7 @@ namespace DigitalRubyShared
 #else
 
             // process each touch in the Unity list of touches
+            touchCount = UnityEngine.Input.touchCount;
             for (int i = 0; i < UnityEngine.Input.touchCount; i++)
             {
                 UnityEngine.Touch t = UnityEngine.Input.GetTouch(i);
@@ -1242,10 +1420,6 @@ namespace DigitalRubyShared
 
                     Debug.LogError("Unable to determine DPI, using default DPI of " + DefaultDPI);
             }
-
-            #if UNITY_EDITOR
-            DeviceInfo.UnitMultiplier = DeviceInfo.PixelsPerInch = DefaultDPI;
-            #endif
 
             // set the main thread callback so gestures can callback after a delay
             DigitalRubyShared.GestureRecognizer.MainThreadCallback = (float delay, System.Action callback) =>
@@ -1822,6 +1996,142 @@ namespace DigitalRubyShared
         }
 
         /// <summary>
+        /// Get a touch from an index
+        /// </summary>
+        /// <param name="index">Touch index</param>
+        /// <returns>Touch</returns>
+        public GestureTouch GetTouch(int index)
+        {
+
+#if UNITY_INPUT_SYSTEM_V2
+
+            int idx = 0;
+            foreach (var device in UnityEngine.InputSystem.InputSystem.devices)
+            {
+                if (device is UnityEngine.InputSystem.Touchscreen touchScreen)
+                {
+                    foreach (var touch in touchScreen.touches)
+                    {
+                        var phase = touch.phase.ReadValue();
+                        if (phase != UnityEngine.InputSystem.TouchPhase.None)
+                        {
+                            if (idx == index)
+                            {
+                                GestureTouch gestureTouch = GestureTouchFromTouch(touch, phase);
+                                return gestureTouch;
+                            }
+                            idx++;
+                        }
+                    }
+                }
+            }
+            throw new System.ArgumentException("Index is out of range of active touches");
+
+#else
+
+            // process each touch in the Unity list of touches
+            UnityEngine.Touch t = UnityEngine.Input.GetTouch(index);
+            GestureTouch g = GestureTouchFromTouch(ref t);
+            return g;
+
+#endif
+
+        }
+
+        public bool IsKeyDownThisFrame(UnityEngine.KeyCode key)
+        {
+
+#if UNITY_INPUT_SYSTEM_V2
+
+            return UnityEngine.InputSystem.Keyboard.current[keyCodeMappings[key]].wasPressedThisFrame;
+
+#else
+
+            return UnityEngine.Input.GetKeyDown(key);
+
+#endif
+
+        }
+
+        public bool IsKeyDown(UnityEngine.KeyCode key)
+        {
+
+#if UNITY_INPUT_SYSTEM_V2
+
+            return UnityEngine.InputSystem.Keyboard.current[keyCodeMappings[key]].isPressed;
+
+#else
+
+            return UnityEngine.Input.GetKey(key);
+
+#endif
+
+        }
+
+        public bool IsKeyUpThisFrame(UnityEngine.KeyCode key)
+        {
+
+#if UNITY_INPUT_SYSTEM_V2
+
+            return UnityEngine.InputSystem.Keyboard.current[keyCodeMappings[key]].wasReleasedThisFrame;
+
+#else
+
+            return UnityEngine.Input.GetKeyUp(key);
+
+#endif
+
+        }
+
+        public bool IsMouseDownThisFrame(int index)
+        {
+
+#if UNITY_INPUT_SYSTEM_V2
+
+            UnityEngine.InputSystem.Controls.ButtonControl mouseButton = GetMouseButton(index);
+            return mouseButton.wasPressedThisFrame;
+
+#else
+
+            return UnityEngine.Input.GetMouseButtonDown(index);
+
+#endif
+
+        }
+
+        public bool IsMouseDown(int index)
+        {
+
+#if UNITY_INPUT_SYSTEM_V2
+
+            UnityEngine.InputSystem.Controls.ButtonControl mouseButton = GetMouseButton(index);
+            return mouseButton.isPressed;
+
+#else
+
+            return UnityEngine.Input.GetMouseButton(index);
+
+#endif
+
+        }
+
+        public bool IsMouseUpThisFrame(int index)
+        {
+
+#if UNITY_INPUT_SYSTEM_V2
+
+            UnityEngine.InputSystem.Controls.ButtonControl mouseButton = GetMouseButton(index);
+            return mouseButton.wasReleasedThisFrame;
+
+#else
+
+            return UnityEngine.Input.GetMouseButtonUp(index);
+
+#endif
+
+        }
+
+        /// <summary>
         /// Gets a collection of the current touches
         /// </summary>
         public ICollection<GestureTouch> Touches { get { return touches; } }
@@ -1905,6 +2215,21 @@ namespace DigitalRubyShared
                 return singleton;
             }
         }
+
+        /// <summary>
+        /// Get the current touch count
+        /// </summary>
+        public int TouchCount { get { return touchCount; } }
+
+        /// <summary>
+        /// Determines if a mouse is present
+        /// </summary>
+        public bool MousePresent { get { return HasMouse(); } }
+
+        /// <summary>
+        /// Get the current mouse position
+        /// </summary>
+        public Vector2 MousePosition { get { return mousePosition; } }
 
         /// <summary>
         /// Check whether Instance is not null without it actually creating a prefab if needed

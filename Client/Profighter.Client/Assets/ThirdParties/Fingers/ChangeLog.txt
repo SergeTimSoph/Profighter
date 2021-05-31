@@ -1,5 +1,8 @@
 ﻿Changelog
 --------------------
+3.0.1	(2021-05-30)
+		- Improve new input system performance.
+
 3.0.0   (2021-04-22)
         - Preliminary support for new Unity input system, just define UNITY_INPUT_SYSTEM_V2 in player scripting defines and it will turn on.
 
