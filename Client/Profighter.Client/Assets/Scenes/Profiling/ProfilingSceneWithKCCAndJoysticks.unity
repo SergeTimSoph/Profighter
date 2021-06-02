@@ -267,7 +267,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 377803691}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: -0.014}
   m_LocalScale: {x: 300, y: 1, z: 300}
   m_Children: []
   m_Father: {fileID: 1933536603}
@@ -306,7 +306,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 10303, guid: 0000000000000000f000000000000000, type: 0}
+  - {fileID: 2100000, guid: 909a3e09df58fff45b9fc0d58ce9423a, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -705,7 +705,6 @@ GameObject:
   m_Component:
   - component: {fileID: 1080002659}
   - component: {fileID: 1080002658}
-  - component: {fileID: 1080002657}
   - component: {fileID: 1080002656}
   m_Layer: 5
   m_Name: Canvas
@@ -731,29 +730,6 @@ MonoBehaviour:
   m_BlockingMask:
     serializedVersion: 2
     m_Bits: 4294967295
---- !u!114 &1080002657
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1080002655}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0cd44c1031e13a943bb63640046fad76, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_UiScaleMode: 1
-  m_ReferencePixelsPerUnit: 100
-  m_ScaleFactor: 1
-  m_ReferenceResolution: {x: 2048, y: 1536}
-  m_ScreenMatchMode: 0
-  m_MatchWidthOrHeight: 1
-  m_PhysicalUnit: 3
-  m_FallbackScreenDPI: 96
-  m_DefaultSpriteDPI: 96
-  m_DynamicPixelsPerUnit: 1
-  m_PresetInfoIsWorld: 0
 --- !u!223 &1080002658
 Canvas:
   m_ObjectHideFlags: 0
@@ -1049,10 +1025,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bbd956f720acdca419de067a4563341b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  joystickForegroundRect: {fileID: 382543718}
-  joystickBackgroundRect: {fileID: 477379391}
   touchAreaRect: {fileID: 1867213679}
-  movementRangeInInches: 1
+  joystickBackgroundRect: {fileID: 477379391}
+  joystickForegroundRect: {fileID: 382543718}
+  joystickForegroundRectDiameterFactor: 0.3
+  movementRangeInInches: 0.5
   horizontalAxisName: MovementHorizontal
   verticalAxisName: MovementVertical
 --- !u!1 &1869353473

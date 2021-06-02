@@ -7,34 +7,32 @@ namespace Profighter.Client.UI
     {
         private const float DefaultDPI = 200f;
 
-        private static float unitMultiplier;
-        private static float oneOverUnitMultiplier;
+        private static float dpi;
 
         public static float PixelsToInches(float pixels)
         {
-            return pixels * oneOverUnitMultiplier;
+            return pixels / dpi;
         }
 
-        public static float InchesToPixels(float units)
+        public static float InchesToPixels(float inches)
         {
-            return units * UnitMultiplier;
+            return inches * dpi;
         }
 
-        public static float UnitMultiplier
+        public static float DPI
         {
-            get => unitMultiplier;
+            get => dpi;
             set
             {
                 value = Math.Max(0.00001f, value);
-                unitMultiplier = value;
-                oneOverUnitMultiplier = 1.0f / value;
+                dpi = value;
             }
         }
 
         public static void Setup()
         {
             var screenDPI = Screen.dpi;
-            UnitMultiplier = screenDPI > 0 ? screenDPI : DefaultDPI;
+            dpi = screenDPI > 0 ? screenDPI : DefaultDPI;
         }
     }
 }

@@ -1,6 +1,7 @@
 using Profighter.Client.UI;
 using UnityEngine;
 using UnityEngine.EventSystems;
+using UnityEngine.Profiling;
 
 namespace Profighter.Client.PlayerInput
 {
@@ -12,6 +13,8 @@ namespace Profighter.Client.PlayerInput
         private RectTransform joystickBackgroundRect;
         [SerializeField]
         private RectTransform joystickForegroundRect;
+        [SerializeField]
+        private float joystickForegroundRectDiameterFactor = 0.3f;
 
         [SerializeField]
         private float movementRangeInInches = 1f;
@@ -29,8 +32,6 @@ namespace Profighter.Client.PlayerInput
         private Vector3 initialJoystickForegroundPosition;
         private Vector3 initialJoystickBackgroundPosition;
 
-        private float sqrMovementRangeInPixels;
-
         private void OnEnable()
         {
             horizontalVirtualAxis = new CrossPlatformInputManager.VirtualAxis(horizontalAxisName);
@@ -42,13 +43,16 @@ namespace Profighter.Client.PlayerInput
 
         private void Start()
         {
+            var joystickBackgroundDiameter = DeviceScreenInfo.InchesToPixels(movementRangeInInches) * 2;
+            joystickBackgroundRect.sizeDelta = new Vector2(joystickBackgroundDiameter, joystickBackgroundDiameter);
+            var joystickForegroundDiameter = joystickBackgroundDiameter * joystickForegroundRectDiameterFactor;
+            joystickForegroundRect.sizeDelta = new Vector2(joystickForegroundDiameter, joystickForegroundDiameter);
+
             var joystickBackgroundPosition = joystickBackgroundRect.position;
             dragStartPosition = touchAreaRect.InverseTransformPoint(joystickBackgroundPosition);
 
             initialJoystickForegroundPosition = joystickForegroundRect.localPosition;
             initialJoystickBackgroundPosition = joystickBackgroundPosition;
-
-            sqrMovementRangeInPixels = DeviceScreenInfo.InchesToPixels(movementRangeInInches) * DeviceScreenInfo.InchesToPixels(movementRangeInInches);
         }
 
         private void OnDisable()
@@ -76,13 +80,14 @@ namespace Profighter.Client.PlayerInput
             }
 
             var dragOffset = dragPosition - dragStartPosition;
-            var dragVector = new Vector3(dragOffset.x, dragOffset.y);
 
-            var sqrMagnitude = dragVector.sqrMagnitude;
-            if (sqrMagnitude > sqrMovementRangeInPixels)
+            var sqrMagnitude = dragOffset.sqrMagnitude;
+            if (sqrMagnitude > DeviceScreenInfo.InchesToPixels(movementRangeInInches) * DeviceScreenInfo.InchesToPixels(movementRangeInInches))
             {
-                dragVector = dragVector.normalized * DeviceScreenInfo.InchesToPixels(movementRangeInInches);
+                dragOffset = dragOffset.normalized * DeviceScreenInfo.InchesToPixels(movementRangeInInches);
             }
+
+            var dragVector = new Vector3(dragOffset.x, dragOffset.y);
             joystickForegroundRect.localPosition = dragVector;
 
             UpdateVirtualAxes(dragVector);
