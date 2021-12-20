@@ -34,7 +34,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 1
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 19.976, y: 89.87, z: 0}
 --- !u!20 &7096476127293879327
 Camera:
@@ -108,9 +108,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Camera: {fileID: 7096476127293879327}
-  FollowPointFraming: {x: 0, y: 0}
+  FollowPointFraming: {x: 0.7, y: 0}
   FollowingSharpness: 10000
-  DefaultDistance: 6
+  DefaultDistance: 5
   MinDistance: 0
   MaxDistance: 10
   DistanceMovementSpeed: 5

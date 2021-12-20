@@ -120,7 +120,7 @@ Transform:
   m_Children:
   - {fileID: 7125843654157045101}
   m_Father: {fileID: 0}
-  m_RootOrder: 2
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 90.00001, z: 0}
 --- !u!136 &7133946252522628479
 CapsuleCollider:
@@ -252,6 +252,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   inputController: {fileID: 2126619633164634040}
+  raycastMask:
+    serializedVersion: 2
+    m_Bits: 64
 --- !u!1 &7125304052292230807
 GameObject:
   m_ObjectHideFlags: 0
