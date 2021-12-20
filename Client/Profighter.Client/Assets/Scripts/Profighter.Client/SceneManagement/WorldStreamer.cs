@@ -36,13 +36,6 @@ namespace Profighter.Client.SceneManagement
                     {
                         Debug.LogWarning($"Inside scene with ID: {scene.SceneInfo.ID}!");
 
-                        if (scene.SceneStatus == SceneStatus.Unloaded)
-                        {
-                            scene.SceneStatus = SceneStatus.Loading;
-                            var loadingProcess = SceneManager.LoadSceneAsync(scene.SceneInfo.ID, LoadSceneMode.Additive);
-                            loadingProcess.completed += _ => scene.SceneStatus = SceneStatus.Loaded;
-                        }
-
                         scenesToLoad.Add(scene.SceneInfo.ID);
                         scenesToLoad.AddRange(scene.SceneInfo.VisibleScenes);
                     }

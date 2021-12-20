@@ -1034,38 +1034,132 @@ MonoBehaviour:
   sceneInfos:
   - id: 0
     borderPoints:
-    - {x: -10, y: 0, z: 10}
-    - {x: 10, y: 0, z: 10}
-    - {x: 10, y: 0, z: -10}
-    - {x: -10, y: 0, z: -10}
+    - {x: -100, y: 0, z: 0}
+    - {x: -100, y: 0, z: 100}
+    - {x: 0, y: 0, z: 100}
+    - {x: 0, y: 0, z: 0}
     visibleScenes:
     - 1
+    - 2
+    - 3
+    - 4
+    - 5
+    - 6
+    - 7
+    - 8
   - id: 1
     borderPoints:
-    - {x: -27, y: 0, z: 22}
-    - {x: -8, y: 0, z: 22}
-    - {x: -8, y: 0, z: 2}
-    - {x: -27, y: 0, z: 2}
-    visibleScenes:
-    - 2
-  - id: 2
-    borderPoints:
-    - {x: -12, y: 0, z: 36}
-    - {x: 7, y: 0, z: 36}
-    - {x: 7, y: 0, z: 17}
-    - {x: -12, y: 0, z: 17}
-    visibleScenes:
-    - 3
-  - id: 3
-    borderPoints:
-    - {x: 0, y: 0, z: 50}
-    - {x: 20, y: 0, z: 50}
-    - {x: 20, y: 0, z: 30}
-    - {x: 0, y: 0, z: 30}
+    - {x: 0, y: 0, z: 0}
+    - {x: 0, y: 0, z: 100}
+    - {x: 100, y: 0, z: 100}
+    - {x: 100, y: 0, z: 0}
     visibleScenes:
     - 0
-    - 1
     - 2
+    - 3
+    - 7
+    - 8
+    - 9
+    - 10
+    - 11
+  - id: 2
+    borderPoints:
+    - {x: 0, y: 0, z: -100}
+    - {x: 0, y: 0, z: 0}
+    - {x: 100, y: 0, z: 0}
+    - {x: 100, y: 0, z: -100}
+    visibleScenes: []
+  - id: 3
+    borderPoints:
+    - {x: -100, y: 0, z: -100}
+    - {x: -100, y: 0, z: 0}
+    - {x: 0, y: 0, z: 0}
+    - {x: 0, y: 0, z: -100}
+    visibleScenes: []
+  - id: 4
+    borderPoints:
+    - {x: -100, y: 0, z: -100}
+    - {x: -100, y: 0, z: 0}
+    - {x: 0, y: 0, z: 0}
+    - {x: 0, y: 0, z: -100}
+    visibleScenes: []
+  - id: 5
+    borderPoints:
+    - {x: -100, y: 0, z: -100}
+    - {x: -100, y: 0, z: 0}
+    - {x: 0, y: 0, z: 0}
+    - {x: 0, y: 0, z: -100}
+    visibleScenes: []
+  - id: 6
+    borderPoints:
+    - {x: -100, y: 0, z: -100}
+    - {x: -100, y: 0, z: 0}
+    - {x: 0, y: 0, z: 0}
+    - {x: 0, y: 0, z: -100}
+    visibleScenes: []
+  - id: 7
+    borderPoints:
+    - {x: -100, y: 0, z: -100}
+    - {x: -100, y: 0, z: 0}
+    - {x: 0, y: 0, z: 0}
+    - {x: 0, y: 0, z: -100}
+    visibleScenes: []
+  - id: 8
+    borderPoints:
+    - {x: -100, y: 0, z: -100}
+    - {x: -100, y: 0, z: 0}
+    - {x: 0, y: 0, z: 0}
+    - {x: 0, y: 0, z: -100}
+    visibleScenes: []
+  - id: 9
+    borderPoints:
+    - {x: -100, y: 0, z: -100}
+    - {x: -100, y: 0, z: 0}
+    - {x: 0, y: 0, z: 0}
+    - {x: 0, y: 0, z: -100}
+    visibleScenes: []
+  - id: 10
+    borderPoints:
+    - {x: -100, y: 0, z: -100}
+    - {x: -100, y: 0, z: 0}
+    - {x: 0, y: 0, z: 0}
+    - {x: 0, y: 0, z: -100}
+    visibleScenes: []
+  - id: 11
+    borderPoints:
+    - {x: -100, y: 0, z: -100}
+    - {x: -100, y: 0, z: 0}
+    - {x: 0, y: 0, z: 0}
+    - {x: 0, y: 0, z: -100}
+    visibleScenes: []
+  - id: 12
+    borderPoints:
+    - {x: -100, y: 0, z: -100}
+    - {x: -100, y: 0, z: 0}
+    - {x: 0, y: 0, z: 0}
+    - {x: 0, y: 0, z: -100}
+    visibleScenes: []
+  - id: 13
+    borderPoints:
+    - {x: -100, y: 0, z: -100}
+    - {x: -100, y: 0, z: 0}
+    - {x: 0, y: 0, z: 0}
+    - {x: 0, y: 0, z: -100}
+    visibleScenes: []
+  - id: 14
+    borderPoints:
+    - {x: -100, y: 0, z: -100}
+    - {x: -100, y: 0, z: 0}
+    - {x: 0, y: 0, z: 0}
+    - {x: 0, y: 0, z: -100}
+    visibleScenes: []
+  - id: 15
+    borderPoints:
+    - {x: -100, y: 0, z: -100}
+    - {x: -100, y: 0, z: 0}
+    - {x: 0, y: 0, z: 0}
+    - {x: 0, y: 0, z: -100}
+    visibleScenes: []
 --- !u!1 &1867213678
 GameObject:
   m_ObjectHideFlags: 0
