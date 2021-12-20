@@ -1,11 +1,19 @@
-using System;
+using Profighter.Client.Camera;
+using Profighter.Client.Character;
+using Profighter.Client.SceneManagement;
 using Profighter.Client.UI;
 using UnityEngine;
 
 public class Main : MonoBehaviour
 {
     [SerializeField]
-    private
+    private Character localCharacterPrefab;
+
+    [SerializeField]
+    private WorldStreamer worldStreamer;
+
+    [SerializeField]
+    private OrbitCamera orbitCamera;
 
     void Awake()
     {
@@ -17,7 +25,8 @@ public class Main : MonoBehaviour
 
     private void Start()
     {
-
-
+        var localCharacter = Instantiate(localCharacterPrefab, new Vector3(0f, 0.5f, 0f), Quaternion.identity);
+        localCharacter.Setup(orbitCamera);
+        worldStreamer.Setup(localCharacter.transform);
     }
 }

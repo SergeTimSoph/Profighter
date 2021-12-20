@@ -6,38 +6,55 @@ using CharacterController = Profighter.Client.Character.CharacterController;
 
 namespace Profighter.Client.PlayerInput
 {
-    public class PlayerInputController : MonoBehaviour
+    public class CharacterInputController : MonoBehaviour
     {
-        public CharacterController Character;
-        public OrbitCamera CharacterCamera;
+        [SerializeField]
+        private CharacterController characterController;
+
+        private OrbitCamera characterCamera;
+        private bool isSetup;
 
         private const string RotationXInput = "RotationX";
         private const string RotationYInput = "RotationY";
         private const string HorizontalInput = "MovementHorizontal";
         private const string VerticalInput = "MovementVertical";
 
-        private void Start()
-        {
-            CharacterCamera.SetFollowTransform(Character.CameraFollowPoint);
-
-            CharacterCamera.IgnoredColliders.Clear();
-            CharacterCamera.IgnoredColliders.AddRange(Character.GetComponentsInChildren<Collider>());
-        }
-
         private void Update()
         {
+            if (!isSetup)
+            {
+                return;
+            }
+
             HandleCharacterInput();
         }
 
         private void LateUpdate()
         {
-            if (CharacterCamera.RotateWithPhysicsMover && Character.Motor.AttachedRigidbody != null)
+            if (!isSetup)
             {
-                CharacterCamera.PlanarDirection = Character.Motor.AttachedRigidbody.GetComponent<PhysicsMover>().RotationDeltaFromInterpolation * CharacterCamera.PlanarDirection;
-                CharacterCamera.PlanarDirection = Vector3.ProjectOnPlane(CharacterCamera.PlanarDirection, Character.Motor.CharacterUp).normalized;
+                return;
+            }
+
+            if (characterCamera.RotateWithPhysicsMover && characterController.Motor.AttachedRigidbody != null)
+            {
+                characterCamera.PlanarDirection = characterController.Motor.AttachedRigidbody.GetComponent<PhysicsMover>().RotationDeltaFromInterpolation * characterCamera.PlanarDirection;
+                characterCamera.PlanarDirection = Vector3.ProjectOnPlane(characterCamera.PlanarDirection, characterController.Motor.CharacterUp).normalized;
             }
 
             HandleCameraInput();
+        }
+
+        public void Setup(OrbitCamera camera)
+        {
+            characterCamera = camera;
+
+            characterCamera.SetFollowTransform(characterController.CameraFollowPoint);
+
+            characterCamera.IgnoredColliders.Clear();
+            characterCamera.IgnoredColliders.AddRange(characterController.GetComponentsInChildren<Collider>());
+
+            isSetup = true;
         }
 
         private void HandleCameraInput()
@@ -47,7 +64,7 @@ namespace Profighter.Client.PlayerInput
 
             Vector3 lookInputVector = new Vector3(mouseLookAxisRight, mouseLookAxisUp, 0f);
 
-            CharacterCamera.UpdateWithInput(Time.deltaTime, lookInputVector);
+            characterCamera.UpdateWithInput(Time.deltaTime, lookInputVector);
         }
 
         private void HandleCharacterInput()
@@ -62,9 +79,9 @@ namespace Profighter.Client.PlayerInput
             characterInputs.MoveAxisRight = CrossPlatformInputManager.GetAxisRaw(HorizontalInput);
             #endif
 
-            characterInputs.CameraRotation = CharacterCamera.Transform.rotation;
+            characterInputs.CameraRotation = characterCamera.Transform.rotation;
 
-            Character.SetInputs(ref characterInputs);
+            characterController.SetInputs(ref characterInputs);
         }
     }
 }

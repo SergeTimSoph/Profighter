@@ -10,10 +10,9 @@ namespace Profighter.Client.SceneManagement
     public class WorldStreamer : MonoBehaviour
     {
         [SerializeField]
-        private Transform character;
-
-        [SerializeField]
         private List<SceneInfo> sceneInfos;
+
+        private Transform characterTransform;
 
         private readonly List<Scene> scenes = new();
 
@@ -32,7 +31,7 @@ namespace Profighter.Client.SceneManagement
                 var scenesToLoad = new List<string>();
                 foreach (var scene in scenes)
                 {
-                    if (PositionUtils.IsInside(scene.SceneInfo.BorderPoints, scene.SceneInfo.BorderPoints.Length, character.position))
+                    if (PositionUtils.IsInside(scene.SceneInfo.BorderPoints, scene.SceneInfo.BorderPoints.Length, characterTransform.position))
                     {
                         Debug.LogWarning($"Inside scene with ID: {scene.SceneInfo.ID}!");
 
@@ -47,6 +46,11 @@ namespace Profighter.Client.SceneManagement
 
                 HandleSceneLoadingAndUnloading(scenesToLoad);
             }
+        }
+
+        public void Setup(Transform characterTransform)
+        {
+            this.characterTransform = characterTransform;
         }
 
         private void HandleSceneLoadingAndUnloading(List<string> scenesToLoad)
