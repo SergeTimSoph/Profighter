@@ -1084,6 +1084,12 @@ MonoBehaviour:
     - {x: 0, y: 0, z: 0}
     - {x: 0, y: 0, z: -100}
     visibleScenes: []
+  worldObjectInfos:
+  - originSceneId: 0
+    name: TestObject
+    prefabKey: TestKey
+    originPosition: {x: -5, y: 1, z: 5}
+  worldObjectsConfig: {fileID: 11400000, guid: b05a74085bfe34b4baf087e4c02a5698, type: 2}
 --- !u!1 &1867213678
 GameObject:
   m_ObjectHideFlags: 0

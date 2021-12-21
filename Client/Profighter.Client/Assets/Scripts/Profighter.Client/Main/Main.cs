@@ -26,7 +26,7 @@ public class Main : MonoBehaviour
     private void Start()
     {
         var localCharacter = Instantiate(localCharacterPrefab, new Vector3(0f, 0.5f, 0f), Quaternion.identity);
-        localCharacter.Setup(orbitCamera);
         worldStreamer.Setup(localCharacter.transform);
+        localCharacter.Setup(orbitCamera, worldStreamer.InteractableObjects);
     }
 }

@@ -1,6 +1,8 @@
 ﻿using System;
+using System.Collections.Generic;
 using Profighter.Client.Camera;
 using Profighter.Client.PlayerInput;
+using Profighter.Client.WorldObjects;
 using UnityEngine;
 
 namespace Profighter.Client.Character
@@ -11,12 +13,21 @@ namespace Profighter.Client.Character
         private CharacterInputController inputController;
 
         [SerializeField]
+        private CharacterController characterController;
+
+        [SerializeField]
         private LayerMask raycastMask;
+
+        [SerializeField]
+        private Transform holdObjectRoot;
+
+        private readonly RaycastHit[] raycastHits = new RaycastHit[1];
 
         private bool isSetup;
         private Inventory inventory;
-        private RaycastHit[] raycastHits = new RaycastHit[5];
         private OrbitCamera orbitCamera;
+        private IDictionary<Collider, IInteractable> interactableObjects;
+        private IInteractable currentInteractable;
 
         private void FixedUpdate()
         {
@@ -30,16 +41,42 @@ namespace Profighter.Client.Character
             var hits = Physics.RaycastNonAlloc(ray, raycastHits, 50f, raycastMask);
             Debug.DrawRay(ray.origin, ray.direction * 50f, Color.red, 0.5f);
 
-            Debug.LogWarning($"Hits count: {hits}");
-            for (int i = 0; i < hits; i++)
+            if (hits != 0)
             {
+                var isInteractable = interactableObjects.TryGetValue(raycastHits[0].collider, out var interactable);
 
+                if (isInteractable)
+                {
+                    currentInteractable = interactable;
+                }
+                else
+                {
+                    currentInteractable = null;
+                }
+            }
+            else
+            {
+                currentInteractable = null;
             }
         }
 
-        public void Setup(OrbitCamera orbitCamera)
+        private void Update()
+        {
+            if (Input.GetKeyDown(KeyCode.T) && currentInteractable != null)
+            {
+                inventory.Add(currentInteractable);
+                characterController.IgnoredColliders.Add(currentInteractable.Collider);
+                currentInteractable.Transform.parent = holdObjectRoot;
+                currentInteractable.Transform.position = holdObjectRoot.position;
+                currentInteractable.Transform.rotation = holdObjectRoot.rotation;
+            }
+        }
+
+        public void Setup(OrbitCamera orbitCamera, IDictionary<Collider, IInteractable> interactableObjects)
         {
             this.orbitCamera = orbitCamera;
+            this.interactableObjects = interactableObjects;
+
             inputController.Setup(orbitCamera);
             inventory = new Inventory();
 

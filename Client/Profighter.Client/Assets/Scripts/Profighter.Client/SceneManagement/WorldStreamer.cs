@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using Profighter.Client.Utils;
+using Profighter.Client.WorldObjects;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -12,9 +12,17 @@ namespace Profighter.Client.SceneManagement
         [SerializeField]
         private List<SceneInfo> sceneInfos;
 
+        [SerializeField]
+        private List<WorldObjectInfo> worldObjectInfos;
+
+        [SerializeField]
+        private WorldObjectsConfig worldObjectsConfig;
+
         private Transform characterTransform;
 
         private readonly List<Scene> scenes = new();
+
+        public IDictionary<Collider, IInteractable> InteractableObjects { get; private set; } = new Dictionary<Collider, IInteractable>();
 
         private void Start()
         {
@@ -67,7 +75,11 @@ namespace Profighter.Client.SceneManagement
                         {
                             scene.SceneStatus = SceneStatus.Loading;
                             var loadingProcess = SceneManager.LoadSceneAsync(scene.SceneInfo.ID, LoadSceneMode.Additive);
-                            loadingProcess.completed += _ => scene.SceneStatus = SceneStatus.Loaded;
+                            loadingProcess.completed += _ =>
+                            {
+                                SpawnWorldObjects(sceneToLoad);
+                                scene.SceneStatus = SceneStatus.Loaded;
+                            };
                         }
                     }
                 }
@@ -77,6 +89,23 @@ namespace Profighter.Client.SceneManagement
                     scene.SceneStatus = SceneStatus.Unloading;
                     var loadingProcess = SceneManager.UnloadSceneAsync(scene.SceneInfo.ID);
                     loadingProcess.completed += _ => scene.SceneStatus = SceneStatus.Unloaded;
+                }
+            }
+        }
+
+        private void SpawnWorldObjects(string sceneId)
+        {
+            foreach (var worldObjectInfo in worldObjectInfos)
+            {
+                if (worldObjectInfo.OriginSceneId == sceneId)
+                {
+                    var worldObjectConfig = worldObjectsConfig.GetWorldObjectConfig(worldObjectInfo.PrefabKey);
+                    var worldGO = Instantiate(worldObjectConfig.Prefab, worldObjectInfo.OriginPosition, Quaternion.identity);
+
+                    var worldObjectCollider = worldGO.GetComponent<Collider>();
+                    var interactableObject = new InteractableObject(worldObjectInfo.Name, worldGO.transform, worldObjectCollider);
+
+                    InteractableObjects.Add(worldObjectCollider, interactableObject);
                 }
             }
         }
@@ -114,5 +143,43 @@ namespace Profighter.Client.SceneManagement
         Unloaded = 2,
         Loading = 3,
         Loaded = 4,
+    }
+
+    [Serializable]
+    public class WorldObjectInfo
+    {
+        [SerializeField]
+        private string originSceneId;
+
+        [SerializeField]
+        private string name;
+
+        [SerializeField]
+        private string prefabKey;
+
+        [SerializeField]
+        private Vector3 originPosition;
+
+        public string OriginSceneId => originSceneId;
+
+        public string Name => name;
+
+        public string PrefabKey => prefabKey;
+
+        public Vector3 OriginPosition => originPosition;
+    }
+
+    [Serializable]
+    public class WorldObjectConfig
+    {
+        [SerializeField]
+        private string prefabKey;
+
+        [SerializeField]
+        private GameObject prefab;
+
+        public string PrefabKey => prefabKey;
+
+        public GameObject Prefab => prefab;
     }
 }

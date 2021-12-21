@@ -1,5 +1,36 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!1 &5058895630608157154
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 3634301955145368360}
+  m_Layer: 9
+  m_Name: HoldObjectsRoot
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &3634301955145368360
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5058895630608157154}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0.691, y: 0.974, z: 0.825}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 7125843654157045101}
+  m_RootOrder: -1
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &7124928779730595951
 GameObject:
   m_ObjectHideFlags: 0
@@ -252,9 +283,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   inputController: {fileID: 2126619633164634040}
+  characterController: {fileID: 2039398047837088711}
   raycastMask:
     serializedVersion: 2
     m_Bits: 64
+  holdObjectRoot: {fileID: 3634301955145368360}
 --- !u!1 &7125304052292230807
 GameObject:
   m_ObjectHideFlags: 0
@@ -399,6 +432,7 @@ Transform:
   m_Children:
   - {fileID: 7127583998472054179}
   - {fileID: 7130560334160953079}
+  - {fileID: 3634301955145368360}
   m_Father: {fileID: 7130731318811805899}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
