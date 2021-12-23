@@ -1,20 +1,24 @@
-﻿using System.Collections.Generic;
-using Profighter.Client.WorldObjects;
+﻿using Profighter.Client.WorldObjects;
 
 namespace Profighter.Client.Character
 {
     public class Inventory
     {
-        private List<IInteractable> objects = new List<IInteractable>();
+        private IInteractable interactable;
+
+        public IInteractable GetItem()
+        {
+            return interactable;
+        }
 
         public void Add(IInteractable objectToAdd)
         {
-            objects.Add(objectToAdd);
+            interactable = objectToAdd;
         }
 
-        public void Remove(IInteractable objectToRemove)
+        public void RemoveItem()
         {
-            objects.Remove(objectToRemove);
+            interactable = null;
         }
     }
 }

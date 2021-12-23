@@ -19,21 +19,21 @@ namespace Profighter.Client.SceneManagement
             Vector3 p = new Vector3(20, 20);
             if (PositionUtils.IsInside(polygon1, n, p))
             {
-                Debug.Log("Yes");
+                //Debug.Log("Yes");
             }
             else
             {
-                Debug.Log("No");
+                //Debug.Log("No");
             }
 
             p = new Vector3(5, 5);
             if (PositionUtils.IsInside(polygon1, n, p))
             {
-                Debug.Log("Yes");
+                //Debug.Log("Yes");
             }
             else
             {
-                Debug.Log("No");
+                //Debug.Log("No");
             }
 
             Vector3[] polygon2 =
@@ -46,31 +46,31 @@ namespace Profighter.Client.SceneManagement
             n = polygon2.Length;
             if (PositionUtils.IsInside(polygon2, n, p))
             {
-                Debug.Log("Yes");
+                //Debug.Log("Yes");
             }
             else
             {
-                Debug.Log("No");
+                //Debug.Log("No");
             }
 
             p = new Vector3(5, 1);
             if (PositionUtils.IsInside(polygon2, n, p))
             {
-                Debug.Log("Yes");
+                //Debug.Log("Yes");
             }
             else
             {
-                Debug.Log("No");
+                //Debug.Log("No");
             }
 
             p = new Vector3(8, 1);
             if (PositionUtils.IsInside(polygon2, n, p))
             {
-                Debug.Log("Yes");
+                //Debug.Log("Yes");
             }
             else
             {
-                Debug.Log("No");
+                //Debug.Log("No");
             }
 
             Vector3[] polygon3 =
@@ -84,11 +84,11 @@ namespace Profighter.Client.SceneManagement
             n = polygon3.Length;
             if (PositionUtils.IsInside(polygon3, n, p))
             {
-                Debug.Log("Yes");
+                ///Debug.Log("Yes");
             }
             else
             {
-                Debug.Log("No");
+                //Debug.Log("No");
             }
         }
     }

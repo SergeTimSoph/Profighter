@@ -27,7 +27,9 @@ namespace Profighter.Client.Character
         private Inventory inventory;
         private OrbitCamera orbitCamera;
         private IDictionary<Collider, IInteractable> interactableObjects;
+
         private IInteractable currentInteractable;
+        private Transform worldObjectsRoot;
 
         private void FixedUpdate()
         {
@@ -70,12 +72,20 @@ namespace Profighter.Client.Character
                 currentInteractable.Transform.position = holdObjectRoot.position;
                 currentInteractable.Transform.rotation = holdObjectRoot.rotation;
             }
+            else if (Input.GetKeyDown(KeyCode.Y) && inventory.GetItem() != null)
+            {
+                var interactable = inventory.GetItem();
+                characterController.IgnoredColliders.Remove(interactable.Collider);
+                interactable.Transform.parent = worldObjectsRoot;
+                inventory.RemoveItem();
+            }
         }
 
-        public void Setup(OrbitCamera orbitCamera, IDictionary<Collider, IInteractable> interactableObjects)
+        public void Setup(OrbitCamera orbitCamera, IDictionary<Collider, IInteractable> interactableObjects, Transform worldObjectsRoot)
         {
             this.orbitCamera = orbitCamera;
             this.interactableObjects = interactableObjects;
+            this.worldObjectsRoot = worldObjectsRoot;
 
             inputController.Setup(orbitCamera);
             inventory = new Inventory();
