@@ -2,19 +2,19 @@ using UnityEngine;
 
 namespace Profighter.Client.PlayerInput
 {
-    public class MobileInput : VirtualInput
+    public class InputMobile : InputVirtual
     {
         private void AddButton(string name)
         {
             // we have not registered this button yet so add it, happens in the constructor
-            CrossPlatformInputManager.RegisterVirtualButton(new CrossPlatformInputManager.VirtualButton(name));
+            MultiPlatformInputManager.RegisterVirtualButton(new MultiPlatformInputManager.VirtualButton(name));
         }
 
 
         private void AddAxes(string name)
         {
             // we have not registered this button yet so add it, happens in the constructor
-            CrossPlatformInputManager.RegisterVirtualAxis(new CrossPlatformInputManager.VirtualAxis(name));
+            MultiPlatformInputManager.RegisterVirtualAxis(new MultiPlatformInputManager.VirtualAxis(name));
         }
 
 

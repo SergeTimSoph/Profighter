@@ -59,8 +59,8 @@ namespace Profighter.Client.PlayerInput
 
         private void HandleCameraInput()
         {
-            float mouseLookAxisUp = CrossPlatformInputManager.GetAxisRaw(RotationYInput);
-            float mouseLookAxisRight = CrossPlatformInputManager.GetAxisRaw(RotationXInput);
+            float mouseLookAxisUp = MultiPlatformInputManager.GetAxisRaw(RotationYInput);
+            float mouseLookAxisRight = MultiPlatformInputManager.GetAxisRaw(RotationXInput);
 
             Vector3 lookInputVector = new Vector3(mouseLookAxisRight, mouseLookAxisUp, 0f);
 

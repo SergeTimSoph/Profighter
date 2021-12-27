@@ -4,7 +4,7 @@ using UnityEditor;
 namespace Profighter.Client.Editor.PlayerInput
 {
     [InitializeOnLoad]
-    public class CrossPlatformInitialize
+    public class MultiPlatformInitialize
     {
         // Custom compiler defines:
         //
@@ -12,7 +12,7 @@ namespace Profighter.Client.Editor.PlayerInput
         // EDITOR_MOBILE_INPUT : denotes that mobile input should be used in editor, if a mobile build target is selected. (i.e. using Unity Remote app).
         // MOBILE_INPUT : denotes that mobile input should be used right now!
 
-        static CrossPlatformInitialize()
+        static MultiPlatformInitialize()
         {
             var defines = GetDefinesList(buildTargetGroups[0]);
             if (!defines.Contains("CROSS_PLATFORM_INPUT"))

@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace Profighter.Client.PlayerInput
 {
-	public static class CrossPlatformInputManager
+	public static class MultiPlatformInputManager
 	{
 		public enum ActiveInputMethod
 		{
@@ -12,18 +12,18 @@ namespace Profighter.Client.PlayerInput
 		}
 
 
-		private static VirtualInput activeInput;
+		private static InputVirtual Active;
 
-		private static VirtualInput s_TouchInput;
-		private static VirtualInput s_HardwareInput;
+		private static InputVirtual STouch;
+		private static InputVirtual SHardware;
 
 
-		static CrossPlatformInputManager()
+		static MultiPlatformInputManager()
 		{
-			s_TouchInput = new MobileInput();
-			s_HardwareInput = new StandaloneInput();
+			STouch = new InputMobile();
+			SHardware = new InputStandalone();
 #if MOBILE_INPUT
-            activeInput = s_TouchInput;
+            Active = STouch;
 #else
 			activeInput = s_HardwareInput;
 #endif
@@ -34,34 +34,34 @@ namespace Profighter.Client.PlayerInput
 			switch (activeInputMethod)
 			{
 				case ActiveInputMethod.Hardware:
-					activeInput = s_HardwareInput;
+					Active = SHardware;
 					break;
 
 				case ActiveInputMethod.Touch:
-					activeInput = s_TouchInput;
+					Active = STouch;
 					break;
 			}
 		}
 
 		public static bool AxisExists(string name)
 		{
-			return activeInput.AxisExists(name);
+			return Active.AxisExists(name);
 		}
 
 		public static bool ButtonExists(string name)
 		{
-			return activeInput.ButtonExists(name);
+			return Active.ButtonExists(name);
 		}
 
 		public static void RegisterVirtualAxis(VirtualAxis axis)
 		{
-			activeInput.RegisterVirtualAxis(axis);
+			Active.RegisterVirtualAxis(axis);
 		}
 
 
 		public static void RegisterVirtualButton(VirtualButton button)
 		{
-			activeInput.RegisterVirtualButton(button);
+			Active.RegisterVirtualButton(button);
 		}
 
 
@@ -71,20 +71,20 @@ namespace Profighter.Client.PlayerInput
 			{
 				throw new ArgumentNullException("name");
 			}
-			activeInput.UnRegisterVirtualAxis(name);
+			Active.UnRegisterVirtualAxis(name);
 		}
 
 
 		public static void UnRegisterVirtualButton(string name)
 		{
-			activeInput.UnRegisterVirtualButton(name);
+			Active.UnRegisterVirtualButton(name);
 		}
 
 
 		// returns a reference to a named virtual axis if it exists otherwise null
 		public static VirtualAxis VirtualAxisReference(string name)
 		{
-			return activeInput.VirtualAxisReference(name);
+			return Active.VirtualAxisReference(name);
 		}
 
 
@@ -104,86 +104,86 @@ namespace Profighter.Client.PlayerInput
 		// private function handles both types of axis (raw and not raw)
 		private static float GetAxis(string name, bool raw)
 		{
-			return activeInput.GetAxis(name, raw);
+			return Active.GetAxis(name, raw);
 		}
 
 
 		// -- Button handling --
 		public static bool GetButton(string name)
 		{
-			return activeInput.GetButton(name);
+			return Active.GetButton(name);
 		}
 
 
 		public static bool GetButtonDown(string name)
 		{
-			return activeInput.GetButtonDown(name);
+			return Active.GetButtonDown(name);
 		}
 
 
 		public static bool GetButtonUp(string name)
 		{
-			return activeInput.GetButtonUp(name);
+			return Active.GetButtonUp(name);
 		}
 
 
 		public static void SetButtonDown(string name)
 		{
-			activeInput.SetButtonDown(name);
+			Active.SetButtonDown(name);
 		}
 
 
 		public static void SetButtonUp(string name)
 		{
-			activeInput.SetButtonUp(name);
+			Active.SetButtonUp(name);
 		}
 
 
 		public static void SetAxisPositive(string name)
 		{
-			activeInput.SetAxisPositive(name);
+			Active.SetAxisPositive(name);
 		}
 
 
 		public static void SetAxisNegative(string name)
 		{
-			activeInput.SetAxisNegative(name);
+			Active.SetAxisNegative(name);
 		}
 
 
 		public static void SetAxisZero(string name)
 		{
-			activeInput.SetAxisZero(name);
+			Active.SetAxisZero(name);
 		}
 
 
 		public static void SetAxis(string name, float value)
 		{
-			activeInput.SetAxis(name, value);
+			Active.SetAxis(name, value);
 		}
 
 
 		public static Vector3 mousePosition
 		{
-			get { return activeInput.MousePosition(); }
+			get { return Active.MousePosition(); }
 		}
 
 
 		public static void SetVirtualMousePositionX(float f)
 		{
-			activeInput.SetVirtualMousePositionX(f);
+			Active.SetVirtualMousePositionX(f);
 		}
 
 
 		public static void SetVirtualMousePositionY(float f)
 		{
-			activeInput.SetVirtualMousePositionY(f);
+			Active.SetVirtualMousePositionY(f);
 		}
 
 
 		public static void SetVirtualMousePositionZ(float f)
 		{
-			activeInput.SetVirtualMousePositionZ(f);
+			Active.SetVirtualMousePositionZ(f);
 		}
 
 

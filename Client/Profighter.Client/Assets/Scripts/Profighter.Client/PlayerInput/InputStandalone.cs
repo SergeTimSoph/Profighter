@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace Profighter.Client.PlayerInput
 {
-    public class StandaloneInput : VirtualInput
+    public class InputStandalone : InputVirtual
     {
         public override float GetAxis(string name, bool raw)
         {

@@ -3,16 +3,16 @@ using UnityEngine;
 
 namespace Profighter.Client.PlayerInput
 {
-    public abstract class VirtualInput
+    public abstract class InputVirtual
     {
         public Vector3 virtualMousePosition { get; private set; }
         
         
-        protected Dictionary<string, CrossPlatformInputManager.VirtualAxis> m_VirtualAxes =
-            new Dictionary<string, CrossPlatformInputManager.VirtualAxis>();
+        protected Dictionary<string, MultiPlatformInputManager.VirtualAxis> m_VirtualAxes =
+            new Dictionary<string, MultiPlatformInputManager.VirtualAxis>();
             // Dictionary to store the name relating to the virtual axes
-        protected Dictionary<string, CrossPlatformInputManager.VirtualButton> m_VirtualButtons =
-            new Dictionary<string, CrossPlatformInputManager.VirtualButton>();
+        protected Dictionary<string, MultiPlatformInputManager.VirtualButton> m_VirtualButtons =
+            new Dictionary<string, MultiPlatformInputManager.VirtualButton>();
         protected List<string> m_AlwaysUseVirtual = new List<string>();
             // list of the axis and button names that have been flagged to always use a virtual axis or button
         
@@ -28,7 +28,7 @@ namespace Profighter.Client.PlayerInput
         }
 
 
-        public void RegisterVirtualAxis(CrossPlatformInputManager.VirtualAxis axis)
+        public void RegisterVirtualAxis(MultiPlatformInputManager.VirtualAxis axis)
         {
             // check if we already have an axis with that name and log and error if we do
             if (m_VirtualAxes.ContainsKey(axis.name))
@@ -49,7 +49,7 @@ namespace Profighter.Client.PlayerInput
         }
 
 
-        public void RegisterVirtualButton(CrossPlatformInputManager.VirtualButton button)
+        public void RegisterVirtualButton(MultiPlatformInputManager.VirtualButton button)
         {
             // check if already have a buttin with that name and log an error if we do
             if (m_VirtualButtons.ContainsKey(button.name))
@@ -91,7 +91,7 @@ namespace Profighter.Client.PlayerInput
 
 
         // returns a reference to a named virtual axis if it exists otherwise null
-        public CrossPlatformInputManager.VirtualAxis VirtualAxisReference(string name)
+        public MultiPlatformInputManager.VirtualAxis VirtualAxisReference(string name)
         {
             return m_VirtualAxes.ContainsKey(name) ? m_VirtualAxes[name] : null;
         }

@@ -26,19 +26,19 @@ namespace Profighter.Client.PlayerInput
 
         private Vector2 dragStartPosition;
 
-        private CrossPlatformInputManager.VirtualAxis horizontalVirtualAxis;
-        private CrossPlatformInputManager.VirtualAxis verticalVirtualAxis;
+        private MultiPlatformInputManager.VirtualAxis horizontalVirtualAxis;
+        private MultiPlatformInputManager.VirtualAxis verticalVirtualAxis;
 
         private Vector3 initialJoystickForegroundPosition;
         private Vector3 initialJoystickBackgroundPosition;
 
         private void OnEnable()
         {
-            horizontalVirtualAxis = new CrossPlatformInputManager.VirtualAxis(horizontalAxisName);
-            CrossPlatformInputManager.RegisterVirtualAxis(horizontalVirtualAxis);
+            horizontalVirtualAxis = new MultiPlatformInputManager.VirtualAxis(horizontalAxisName);
+            MultiPlatformInputManager.RegisterVirtualAxis(horizontalVirtualAxis);
 
-            verticalVirtualAxis = new CrossPlatformInputManager.VirtualAxis(verticalAxisName);
-            CrossPlatformInputManager.RegisterVirtualAxis(verticalVirtualAxis);
+            verticalVirtualAxis = new MultiPlatformInputManager.VirtualAxis(verticalAxisName);
+            MultiPlatformInputManager.RegisterVirtualAxis(verticalVirtualAxis);
         }
 
         private void Start()
