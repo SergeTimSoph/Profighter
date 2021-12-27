@@ -24,7 +24,7 @@ namespace Profighter.Client.SceneManagement
         private Transform characterTransform;
 
         private readonly List<Scene> scenes = new();
-        private Dictionary<string, IInteractable> sceneObjects = new Dictionary<string, IInteractable>();
+        private readonly Dictionary<string, IInteractable> sceneObjects = new();
 
         public IDictionary<Collider, IInteractable> InteractableObjects { get; private set; } = new Dictionary<Collider, IInteractable>();
 
