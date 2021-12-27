@@ -23,7 +23,7 @@ namespace Profighter.Client.Editor.PlayerInput
         }
 
 
-        [MenuItem("Mobile Input/Enable")]
+        //[MenuItem("Mobile Input/Enable")]
         private static void Enable()
         {
             SetEnabled("MOBILE_INPUT", true, true);
@@ -46,7 +46,7 @@ namespace Profighter.Client.Editor.PlayerInput
         }
 
 
-        [MenuItem("Mobile Input/Enable", true)]
+        //[MenuItem("Mobile Input/Enable", true)]
         private static bool EnableValidate()
         {
             var defines = GetDefinesList(mobileBuildTargetGroups[0]);
@@ -54,7 +54,7 @@ namespace Profighter.Client.Editor.PlayerInput
         }
 
 
-        [MenuItem("Mobile Input/Disable")]
+        //[MenuItem("Mobile Input/Disable")]
         private static void Disable()
         {
             SetEnabled("MOBILE_INPUT", false, true);
@@ -70,7 +70,7 @@ namespace Profighter.Client.Editor.PlayerInput
         }
 
 
-        [MenuItem("Mobile Input/Disable", true)]
+        //[MenuItem("Mobile Input/Disable", true)]
         private static bool DisableValidate()
         {
             var defines = GetDefinesList(mobileBuildTargetGroups[0]);
