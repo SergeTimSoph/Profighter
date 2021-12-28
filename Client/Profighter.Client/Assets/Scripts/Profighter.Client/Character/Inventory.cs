@@ -4,21 +4,21 @@ namespace Profighter.Client.Character
 {
     public class Inventory
     {
-        private IInteractable interactable;
+        private IInteractableEntity interactableEntity;
 
-        public IInteractable GetItem()
+        public IInteractableEntity GetItem()
         {
-            return interactable;
+            return interactableEntity;
         }
 
-        public void Add(IInteractable objectToAdd)
+        public void Add(IInteractableEntity objectToAdd)
         {
-            interactable = objectToAdd;
+            interactableEntity = objectToAdd;
         }
 
         public void RemoveItem()
         {
-            interactable = null;
+            interactableEntity = null;
         }
     }
 }

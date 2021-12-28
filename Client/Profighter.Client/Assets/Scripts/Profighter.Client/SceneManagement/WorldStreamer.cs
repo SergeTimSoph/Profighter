@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using Profighter.Client.Utils;
 using Profighter.Client.WorldObjects;
 using UnityEngine;
@@ -13,7 +14,7 @@ namespace Profighter.Client.SceneManagement
         private List<SceneInfo> sceneInfos;
 
         [SerializeField]
-        private List<WorldObjectInfo> worldObjectInfos;
+        private List<InteractableObjectInfo> interactableObjectInfos;
 
         [SerializeField]
         private WorldObjectsConfig worldObjectsConfig;
@@ -24,17 +25,39 @@ namespace Profighter.Client.SceneManagement
         private Transform characterTransform;
 
         private readonly List<Scene> scenes = new();
-        private readonly Dictionary<string, IInteractable> sceneObjects = new();
 
-        public IDictionary<Collider, IInteractable> InteractableObjects { get; private set; } = new Dictionary<Collider, IInteractable>();
+        private readonly List<InteractableObject> interactableObjects = new();
+
+        public List<Scene> Scenes => scenes;
+
+        public List<InteractableObject> InteractableObjects => interactableObjects;
 
         public Transform WorldObjectsRoot => worldObjectsRoot;
 
         private void Start()
         {
+            //create scenes only on first start for user. Here we are actually creating user profile with world state.
+            CreateWorldModel();
+        }
+
+        private void CreateWorldModel()
+        {
             foreach (var sceneInfo in sceneInfos)
             {
-                scenes.Add(new Scene { SceneInfo = sceneInfo, SceneStatus = SceneStatus.Unloaded });
+                scenes.Add(new Scene
+                {
+                    SceneInfo = sceneInfo,
+                    SceneState = new SceneState(sceneInfo.Id, SceneStatus.Unloaded)
+                });
+            }
+
+            foreach (var interactableObjectInfo in interactableObjectInfos)
+            {
+                interactableObjects.Add(new InteractableObject
+                {
+                    InteractableObjectInfo = interactableObjectInfo,
+                    InteractableObjectState = new InteractableObjectState(interactableObjectInfo.Id, interactableObjectInfo.InitialSpawnSceneId, interactableObjectInfo.InitialPosition)
+                });
             }
         }
 
@@ -49,7 +72,7 @@ namespace Profighter.Client.SceneManagement
                     {
                         //Debug.LogWarning($"Inside scene with ID: {scene.SceneInfo.ID}!");
 
-                        scenesToLoad.Add(scene.SceneInfo.ID);
+                        scenesToLoad.Add(scene.SceneInfo.Id);
                         scenesToLoad.AddRange(scene.SceneInfo.VisibleScenes);
                     }
                     else
@@ -67,6 +90,36 @@ namespace Profighter.Client.SceneManagement
             this.characterTransform = characterTransform;
         }
 
+        public void AddSceneObject(IInteractableEntity interactableEntity, Vector3 position)
+        {
+            foreach (var scene in scenes)
+            {
+                if (PositionUtils.IsInside(scene.SceneInfo.BorderPoints, scene.SceneInfo.BorderPoints.Length, position))
+                {
+                    foreach (var interactableObject in interactableObjects)
+                    {
+                        if (interactableObject.InteractableEntity == interactableEntity)
+                        {
+                            interactableObject.InteractableObjectState.SceneId = scene.SceneInfo.Id;
+                            interactableObject.InteractableObjectState.Position = position;
+                        }
+                    }
+                }
+            }
+        }
+
+        public void RemoveSceneObject(IInteractableEntity interactableEntity)
+        {
+            foreach (var interactableObject in interactableObjects)
+            {
+                if (interactableObject.InteractableEntity == interactableEntity)
+                {
+                    interactableObject.InteractableObjectState.SceneId = null;
+                    return;
+                }
+            }
+        }
+
         private void HandleSceneLoadingAndUnloading(List<string> scenesToLoad)
         {
             foreach (var scene in scenes)
@@ -74,63 +127,113 @@ namespace Profighter.Client.SceneManagement
                 var shouldUnload = true;
                 foreach (var sceneToLoad in scenesToLoad)
                 {
-                    if (sceneToLoad == scene.SceneInfo.ID)
+                    if (sceneToLoad == scene.SceneInfo.Id)
                     {
                         shouldUnload = false;
-                        if (scene.SceneStatus == SceneStatus.Unloaded)
+                        if (scene.SceneState.SceneStatus == SceneStatus.Unloaded)
                         {
-                            scene.SceneStatus = SceneStatus.Loading;
-                            var loadingProcess = SceneManager.LoadSceneAsync(scene.SceneInfo.ID, LoadSceneMode.Additive);
+                            scene.SceneState.SceneStatus = SceneStatus.Loading;
+                            var loadingProcess = SceneManager.LoadSceneAsync(scene.SceneInfo.Id, LoadSceneMode.Additive);
                             loadingProcess.completed += _ =>
                             {
-                                SpawnWorldObjects(sceneToLoad);
-                                scene.SceneStatus = SceneStatus.Loaded;
+                                SpawnSceneObjects(scene.SceneInfo.Id);
+                                scene.SceneState.SceneStatus = SceneStatus.Loaded;
                             };
                         }
                     }
                 }
 
-                if (scene.SceneStatus == SceneStatus.Loaded && shouldUnload)
+                if (scene.SceneState.SceneStatus == SceneStatus.Loaded && shouldUnload)
                 {
-                    scene.SceneStatus = SceneStatus.Unloading;
+                    scene.SceneState.SceneStatus = SceneStatus.Unloading;
 
-                    DespawnWorldObjects(scene.SceneInfo.ID);
-                    var loadingProcess = SceneManager.UnloadSceneAsync(scene.SceneInfo.ID);
-                    loadingProcess.completed += _ => scene.SceneStatus = SceneStatus.Unloaded;
+                    DespawnSceneObjects(scene.SceneInfo.Id);
+                    var loadingProcess = SceneManager.UnloadSceneAsync(scene.SceneInfo.Id);
+                    loadingProcess.completed += _ => scene.SceneState.SceneStatus = SceneStatus.Unloaded;
                 }
             }
         }
 
-        private void SpawnWorldObjects(string sceneId)
+        private void SpawnSceneObjects(string sceneId)
         {
-            foreach (var worldObjectInfo in worldObjectInfos)
+            foreach (var interactableObject in interactableObjects)
             {
-                if (worldObjectInfo.OriginSceneId == sceneId)
+                if (interactableObject.InteractableObjectState.SceneId == sceneId)
                 {
-                    var worldObjectConfig = worldObjectsConfig.GetWorldObjectConfig(worldObjectInfo.PrefabKey);
-                    var worldGO = Instantiate(worldObjectConfig.Prefab, worldObjectInfo.OriginPosition, Quaternion.identity, worldObjectsRoot);
+                    var worldObjectConfig = worldObjectsConfig.GetWorldObjectConfig(interactableObject.InteractableObjectInfo.PrefabKey);
+                    var worldGO = Instantiate(worldObjectConfig.Prefab, interactableObject.InteractableObjectState.Position, Quaternion.identity, worldObjectsRoot);
 
                     var worldObjectCollider = worldGO.GetComponent<Collider>();
-                    var worldObjectRigidbody = worldGO.GetComponent<Rigidbody>();
-                    var interactableObject = new InteractableObject(worldObjectInfo.Name, worldGO.transform, worldObjectCollider);
-
-                    InteractableObjects.Add(worldObjectCollider, interactableObject);
-                    sceneObjects.Add(sceneId, interactableObject);
+                    var interactableEntity = new InteractableEntity(interactableObject.InteractableObjectInfo.Name, worldGO.transform, worldObjectCollider);
+                    interactableObject.InteractableEntity = interactableEntity;
                 }
             }
         }
 
 
-        private void DespawnWorldObjects(string sceneId)
+        private void DespawnSceneObjects(string sceneId)
         {
-            foreach (var sceneObject in sceneObjects)
+            foreach (var interactableObject in interactableObjects)
             {
-                if (sceneObject.Key == sceneId)
+                if (interactableObject.InteractableObjectState.SceneId == sceneId)
                 {
-                    Destroy(sceneObject.Value.Transform.gameObject);
+                    Destroy(interactableObject.InteractableEntity.Transform.gameObject);
                 }
             }
         }
+    }
+
+    public class SceneState
+    {
+        public string Id { get; }
+
+        public SceneStatus SceneStatus { get; set; }
+
+        public SceneState(string id, SceneStatus sceneStatus)
+        {
+            Id = id;
+            SceneStatus = sceneStatus;
+        }
+    }
+
+    public class InteractableObjectState
+    {
+        public string ObjectId { get; }
+
+        public string SceneId { get; set; }
+
+        public Vector3 Position { get; set; }
+
+        public InteractableObjectState(string objectId, string sceneId, Vector3 position)
+        {
+            ObjectId = objectId;
+            SceneId = sceneId;
+            Position = position;
+        }
+    }
+
+    public class Scene
+    {
+        public SceneInfo SceneInfo { get; set; }
+
+        public SceneState SceneState { get; set; }
+    }
+
+    public class InteractableObject
+    {
+        public InteractableObjectInfo InteractableObjectInfo { get; set; }
+
+        public InteractableObjectState InteractableObjectState { get; set; }
+
+        public IInteractableEntity InteractableEntity { get; set; }
+    }
+
+    public enum SceneStatus
+    {
+        Unloading = 1,
+        Unloaded = 2,
+        Loading = 3,
+        Loaded = 4,
     }
 
     [Serializable]
@@ -145,33 +248,18 @@ namespace Profighter.Client.SceneManagement
         [SerializeField]
         private string[] visibleScenes;
 
-        public string ID => id;
+        public string Id => id;
 
         public Vector3[] BorderPoints => borderPoints;
 
         public string[] VisibleScenes => visibleScenes;
     }
 
-    public class Scene
-    {
-        public SceneInfo SceneInfo { get; set; }
-
-        public SceneStatus SceneStatus { get; set; }
-    }
-
-    public enum SceneStatus
-    {
-        Unloading = 1,
-        Unloaded = 2,
-        Loading = 3,
-        Loaded = 4,
-    }
-
     [Serializable]
-    public class WorldObjectInfo
+    public class InteractableObjectInfo
     {
         [SerializeField]
-        private string originSceneId;
+        private string id;
 
         [SerializeField]
         private string name;
@@ -180,28 +268,19 @@ namespace Profighter.Client.SceneManagement
         private string prefabKey;
 
         [SerializeField]
-        private Vector3 originPosition;
+        private string initialSpawnSceneId;
 
-        public string OriginSceneId => originSceneId;
+        [SerializeField]
+        private Vector3 initialPosition;
+
+        public string Id => id;
 
         public string Name => name;
 
         public string PrefabKey => prefabKey;
 
-        public Vector3 OriginPosition => originPosition;
-    }
+        public string InitialSpawnSceneId => initialSpawnSceneId;
 
-    [Serializable]
-    public class WorldObjectConfig
-    {
-        [SerializeField]
-        private string prefabKey;
-
-        [SerializeField]
-        private GameObject prefab;
-
-        public string PrefabKey => prefabKey;
-
-        public GameObject Prefab => prefab;
+        public Vector3 InitialPosition => initialPosition;
     }
 }

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using Profighter.Client.Camera;
 using Profighter.Client.PlayerInput;
+using Profighter.Client.SceneManagement;
 using Profighter.Client.WorldObjects;
 using UnityEngine;
 
@@ -26,10 +27,10 @@ namespace Profighter.Client.Character
         private bool isSetup;
         private Inventory inventory;
         private OrbitCamera orbitCamera;
-        private IDictionary<Collider, IInteractable> interactableObjects;
 
-        private IInteractable currentInteractable;
+        private IInteractableEntity currentInteractableEntity;
         private Transform worldObjectsRoot;
+        private WorldStreamer worldStreamer;
 
         private void FixedUpdate()
         {
@@ -45,32 +46,54 @@ namespace Profighter.Client.Character
 
             if (hits != 0)
             {
-                var isInteractable = interactableObjects.TryGetValue(raycastHits[0].collider, out var interactable);
+                var isInteractable = TryGetInteractable(raycastHits[0].collider, out var interactable);
 
                 if (isInteractable)
                 {
-                    currentInteractable = interactable;
+                    currentInteractableEntity = interactable;
                 }
                 else
                 {
-                    currentInteractable = null;
+                    currentInteractableEntity = null;
                 }
             }
             else
             {
-                currentInteractable = null;
+                currentInteractableEntity = null;
             }
+        }
+
+        private bool TryGetInteractable(Collider collider, out IInteractableEntity interactableEntity)
+        {
+            foreach (var interactableObject in worldStreamer.InteractableObjects)
+            {
+                if (interactableObject.InteractableEntity == null)
+                {
+                    continue;
+                }
+
+                var interactableEntityCollider = interactableObject.InteractableEntity.Collider;
+                if (interactableEntityCollider != null && interactableEntityCollider == collider)
+                {
+                    interactableEntity = interactableObject.InteractableEntity;
+                    return true;
+                }
+            }
+
+            interactableEntity = null;
+            return false;
         }
 
         private void Update()
         {
-            if (Input.GetKeyDown(KeyCode.T) && currentInteractable != null)
+            if (Input.GetKeyDown(KeyCode.T) && currentInteractableEntity != null)
             {
-                inventory.Add(currentInteractable);
-                characterController.IgnoredColliders.Add(currentInteractable.Collider);
-                currentInteractable.Transform.parent = holdObjectRoot;
-                currentInteractable.Transform.position = holdObjectRoot.position;
-                currentInteractable.Transform.rotation = holdObjectRoot.rotation;
+                worldStreamer.RemoveSceneObject(currentInteractableEntity);
+                inventory.Add(currentInteractableEntity);
+                characterController.IgnoredColliders.Add(currentInteractableEntity.Collider);
+                currentInteractableEntity.Transform.parent = holdObjectRoot;
+                currentInteractableEntity.Transform.position = holdObjectRoot.position;
+                currentInteractableEntity.Transform.rotation = holdObjectRoot.rotation;
             }
             else if (Input.GetKeyDown(KeyCode.Y) && inventory.GetItem() != null)
             {
@@ -78,14 +101,15 @@ namespace Profighter.Client.Character
                 characterController.IgnoredColliders.Remove(interactable.Collider);
                 interactable.Transform.parent = worldObjectsRoot;
                 inventory.RemoveItem();
+                worldStreamer.AddSceneObject(interactable, transform.position);
             }
         }
 
-        public void Setup(OrbitCamera orbitCamera, IDictionary<Collider, IInteractable> interactableObjects, Transform worldObjectsRoot)
+        public void Setup(OrbitCamera orbitCamera, Transform worldObjectsRoot, WorldStreamer worldStreamer)
         {
             this.orbitCamera = orbitCamera;
-            this.interactableObjects = interactableObjects;
             this.worldObjectsRoot = worldObjectsRoot;
+            this.worldStreamer = worldStreamer;
 
             inputController.Setup(orbitCamera);
             inventory = new Inventory();

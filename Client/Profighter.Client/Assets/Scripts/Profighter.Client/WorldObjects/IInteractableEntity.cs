@@ -2,7 +2,7 @@
 
 namespace Profighter.Client.WorldObjects
 {
-    public interface IInteractable
+    public interface IInteractableEntity
     {
         string Name { get; }
 

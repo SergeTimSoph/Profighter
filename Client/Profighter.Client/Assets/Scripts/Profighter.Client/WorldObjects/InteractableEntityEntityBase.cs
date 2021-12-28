@@ -2,7 +2,7 @@
 
 namespace Profighter.Client.WorldObjects
 {
-    public abstract class InteractableObjectBase : IInteractable
+    public abstract class InteractableEntityEntityBase : IInteractableEntity
     {
         public string Name { get; }
 
@@ -10,7 +10,7 @@ namespace Profighter.Client.WorldObjects
 
         public Collider Collider { get; }
 
-        protected InteractableObjectBase(string name, Transform transform, Collider collider)
+        protected InteractableEntityEntityBase(string name, Transform transform, Collider collider)
         {
             Name = name;
             Transform = transform;
