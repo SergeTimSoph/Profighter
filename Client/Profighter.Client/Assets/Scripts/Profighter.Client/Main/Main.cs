@@ -1,5 +1,6 @@
 using Profighter.Client.Camera;
 using Profighter.Client.Character;
+using Profighter.Client.Configuration;
 using Profighter.Client.SceneManagement;
 using Profighter.Client.UI;
 using UnityEngine;
@@ -21,12 +22,11 @@ public class Main : MonoBehaviour
         Application.targetFrameRate = 60;
 
         DeviceScreenInfo.Setup();
-    }
 
-    private void Start()
-    {
+        var gameConfig = new GameConfigProvider().GetGameConfig();
+
         var localCharacter = Instantiate(localCharacterPrefab, new Vector3(0f, 0.5f, 0f), Quaternion.identity);
-        worldStreamer.Setup(localCharacter.transform);
+        worldStreamer.Setup(localCharacter.transform, gameConfig);
         localCharacter.Setup(orbitCamera, worldStreamer.WorldObjectsRoot, worldStreamer);
     }
 }

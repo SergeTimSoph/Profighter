@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using Profighter.Client.Camera;
+using Profighter.Client.Data;
+using Profighter.Client.Entities;
 using Profighter.Client.PlayerInput;
 using Profighter.Client.SceneManagement;
 using Profighter.Client.WorldObjects;
@@ -28,9 +30,10 @@ namespace Profighter.Client.Character
         private Inventory inventory;
         private OrbitCamera orbitCamera;
 
-        private IInteractableEntity currentInteractableEntity;
+        private AreaObject currentAreaObject;
         private Transform worldObjectsRoot;
         private WorldStreamer worldStreamer;
+        private World world;
 
         private void FixedUpdate()
         {
@@ -46,62 +49,69 @@ namespace Profighter.Client.Character
 
             if (hits != 0)
             {
-                var isInteractable = TryGetInteractable(raycastHits[0].collider, out var interactable);
+                var isFound = TryGetAreaObject(raycastHits[0].collider, out var areaObject);
 
-                if (isInteractable)
+                if (isFound)
                 {
-                    currentInteractableEntity = interactable;
+                    currentAreaObject = areaObject;
                 }
                 else
                 {
-                    currentInteractableEntity = null;
+                    currentAreaObject = null;
                 }
             }
             else
             {
-                currentInteractableEntity = null;
+                currentAreaObject = null;
             }
         }
 
-        private bool TryGetInteractable(Collider collider, out IInteractableEntity interactableEntity)
+        private bool TryGetAreaObject(Collider collider, out AreaObject resultAreaObject)
         {
-            foreach (var interactableObject in worldStreamer.InteractableObjects)
+            foreach (var areaObjectPair in worldStreamer.AreaObjects)
             {
-                if (interactableObject.InteractableEntity == null)
+                foreach (var areaObject in areaObjectPair.Value)
                 {
-                    continue;
-                }
-
-                var interactableEntityCollider = interactableObject.InteractableEntity.Collider;
-                if (interactableEntityCollider != null && interactableEntityCollider == collider)
-                {
-                    interactableEntity = interactableObject.InteractableEntity;
-                    return true;
+                    if (areaObject.AreaObjectCollider == collider)
+                    {
+                        resultAreaObject = areaObject;
+                        return true;
+                    }
                 }
             }
 
-            interactableEntity = null;
+            resultAreaObject = null;
             return false;
         }
 
         private void Update()
         {
-            if (Input.GetKeyDown(KeyCode.T) && currentInteractableEntity != null)
+            if (Input.GetKeyDown(KeyCode.T) && currentAreaObject != null)
             {
-                worldStreamer.RemoveSceneObject(currentInteractableEntity);
-                inventory.Add(currentInteractableEntity);
-                characterController.IgnoredColliders.Add(currentInteractableEntity.Collider);
-                currentInteractableEntity.Transform.parent = holdObjectRoot;
-                currentInteractableEntity.Transform.position = holdObjectRoot.position;
-                currentInteractableEntity.Transform.rotation = holdObjectRoot.rotation;
+                var area = world.GetArea(currentAreaObject.AreaId);
+                area.TakeAllItems(currentAreaObject.ItemIdentity);
+                worldStreamer.AreaObjects.TryGetValue(area.Id, out var areaObjects);
+                areaObjects.Remove(currentAreaObject);
+
+                var holdObject = new CharacterHoldObject()
+                {
+                    ItemIdentity = currentAreaObject.ItemIdentity,
+                    Collider = currentAreaObject.AreaObjectCollider,
+                    GameObject = currentAreaObject.AreaGameObject
+                };
+                inventory.SetCurrentItem(holdObject);
+                characterController.IgnoredColliders.Add(currentAreaObject.AreaObjectCollider);
+                currentAreaObject.AreaGameObject.transform.parent = holdObjectRoot;
+                currentAreaObject.AreaGameObject.transform.position = holdObjectRoot.position;
+                currentAreaObject.AreaGameObject.transform.rotation = holdObjectRoot.rotation;
             }
-            else if (Input.GetKeyDown(KeyCode.Y) && inventory.GetItem() != null)
+            else if (Input.GetKeyDown(KeyCode.Y) && inventory.GetCurrentItem() != null)
             {
-                var interactable = inventory.GetItem();
-                characterController.IgnoredColliders.Remove(interactable.Collider);
-                interactable.Transform.parent = worldObjectsRoot;
-                inventory.RemoveItem();
-                worldStreamer.AddSceneObject(interactable, transform.position);
+                var currentInventoryItem = inventory.GetCurrentItem();
+                characterController.IgnoredColliders.Remove(currentInventoryItem.Collider);
+                currentInventoryItem.GameObject.transform.parent = worldObjectsRoot;
+                inventory.RemoveCurrentItem();
+                worldStreamer.AddAreaObject(currentInventoryItem, transform.position);
             }
         }
 
@@ -110,9 +120,11 @@ namespace Profighter.Client.Character
             this.orbitCamera = orbitCamera;
             this.worldObjectsRoot = worldObjectsRoot;
             this.worldStreamer = worldStreamer;
+            this.world = worldStreamer.World;
 
             inputController.Setup(orbitCamera);
-            inventory = new Inventory();
+            inventory = new Inventory(
+                new InventoryState());
 
             isSetup = true;
         }

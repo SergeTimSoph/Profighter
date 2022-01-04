@@ -13,6 +13,6 @@ MonoBehaviour:
   m_Name: WorldObjectsConfig
   m_EditorClassIdentifier: 
   worldObjectConfigs:
-  - prefabKey: TestKey
+  - prefabKey: 10
     prefab: {fileID: 8223075406353224751, guid: 07e3505a51d8c9044812d44b841ad5ae,
       type: 3}
