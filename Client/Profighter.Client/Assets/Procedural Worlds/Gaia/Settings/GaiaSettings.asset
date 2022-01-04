@@ -16,16 +16,16 @@ MonoBehaviour:
   m_customPlayerObject: {fileID: 0}
   m_customPlayerCamera: {fileID: 0}
   m_instantiateCustomControllers: 0
-  m_currentSize: 3
-  m_currentEnvironment: 2
-  m_currentRenderer: 0
-  m_currentDefaults: {fileID: 11400000, guid: 54f4fac3c7f0a1e44a45853d26c87b49, type: 2}
-  m_tilesX: 1
-  m_tilesZ: 1
-  m_createTerrainScenes: 0
-  m_unloadTerrainScenes: 0
-  m_floatingPointFix: 0
-  m_targeSizePreset: 3
+  m_currentSize: 2
+  m_currentEnvironment: 1
+  m_currentRenderer: 2
+  m_currentDefaults: {fileID: 11400000, guid: 523e7c864412c3144932b865df8adefa, type: 2}
+  m_tilesX: 5
+  m_tilesZ: 5
+  m_createTerrainScenes: 1
+  m_unloadTerrainScenes: 1
+  m_floatingPointFix: 1
+  m_targeSizePreset: 5
   m_creationWorkflow: 1
   m_defaultStampSpawnSettings: {fileID: 11400000, guid: 81b0e93a964e9804c9806f8bde6ba9ec,
     type: 2}
@@ -41,7 +41,7 @@ MonoBehaviour:
   m_currentSizeDivisor: 1
   m_currentPlayerPrefabName: FlyCam
   m_flyCamUI: {fileID: 1987081325453708, guid: c22749c16bfe8aa428f5e54cf7cc6505, type: 3}
-  m_currentWaterPrefabName: Water4Advanced
+  m_currentWaterPrefabName: WaterBasicDaytime
   m_saveCollisionCacheWhenSaving: 0
   m_terrainUnloadMemoryTreshold: 4294967296
   m_worldmapLayer: {fileID: 8574412962073106934, guid: 957ef5b80c80fde429be14ca5eeed1ae,
@@ -301,62 +301,72 @@ MonoBehaviour:
   m_IconProVisible: {fileID: 2800000, guid: 8876b877b7f47e7409f8c59c02af1c69, type: 3}
   m_IconProVisibleDisabled: {fileID: 2800000, guid: d1219bc2466f17043924b6ad78da44ed,
     type: 3}
-  m_biomePresetSelection: 8
+  m_biomePresetSelection: 5
   m_BiomeSpawnersToCreate:
   - m_autoAssignPrototypes: 1
-    m_spawnerSettings: {fileID: 11400000, guid: f402506cf81eade4db78bf3a9424c0c9,
+    m_spawnerSettings: {fileID: 11400000, guid: b8eb2d63fe6dbfa45ad853c42a3828a3,
       type: 2}
     m_isActiveInStamper: 1
     m_isActiveInBiome: 1
   - m_autoAssignPrototypes: 0
-    m_spawnerSettings: {fileID: 11400000, guid: 42783e224555be04a8da9de392846bec,
+    m_spawnerSettings: {fileID: 11400000, guid: 436a6667ec945a14d9092d3eb4b67d48,
       type: 2}
     m_isActiveInStamper: 0
     m_isActiveInBiome: 1
   - m_autoAssignPrototypes: 0
-    m_spawnerSettings: {fileID: 11400000, guid: b70ff2238fa761d45972eec9c6f1d5aa,
+    m_spawnerSettings: {fileID: 11400000, guid: 3cb5ba57ef5e1f4448794c75d4f8f503,
       type: 2}
     m_isActiveInStamper: 0
     m_isActiveInBiome: 1
   - m_autoAssignPrototypes: 0
-    m_spawnerSettings: {fileID: 11400000, guid: b6cfb189c3611fb40b0a167081f1ab97,
+    m_spawnerSettings: {fileID: 11400000, guid: 489f60e09c654364e9f81abf31a0e717,
+      type: 2}
+    m_isActiveInStamper: 0
+    m_isActiveInBiome: 1
+  - m_autoAssignPrototypes: 1
+    m_spawnerSettings: {fileID: 11400000, guid: 05875a09422a6bc4ab7a7bcc5a47ba76,
       type: 2}
     m_isActiveInStamper: 0
     m_isActiveInBiome: 1
   - m_autoAssignPrototypes: 0
-    m_spawnerSettings: {fileID: 11400000, guid: 7722acf9c4dbfb14cabee545865ad0ab,
+    m_spawnerSettings: {fileID: 11400000, guid: 5af6d625620ab2e4d8bfb0c3e7b1b1f3,
       type: 2}
     m_isActiveInStamper: 0
     m_isActiveInBiome: 1
   - m_autoAssignPrototypes: 0
-    m_spawnerSettings: {fileID: 11400000, guid: f1ea5361521a58e4bbfb6d7264e82b1f,
+    m_spawnerSettings: {fileID: 11400000, guid: 0a3d043b8ec7486439b5f0fa5a23b908,
       type: 2}
     m_isActiveInStamper: 0
     m_isActiveInBiome: 1
   - m_autoAssignPrototypes: 0
-    m_spawnerSettings: {fileID: 11400000, guid: c451d9a08124d3f4f99001825979727f,
+    m_spawnerSettings: {fileID: 11400000, guid: 0d63c1cf06ac42c4283d127ba47fe13c,
       type: 2}
     m_isActiveInStamper: 0
     m_isActiveInBiome: 1
   - m_autoAssignPrototypes: 0
-    m_spawnerSettings: {fileID: 11400000, guid: a4643a9406d287e45a9505f813997086,
-      type: 2}
-    m_isActiveInStamper: 0
-    m_isActiveInBiome: 0
-  - m_autoAssignPrototypes: 0
-    m_spawnerSettings: {fileID: 11400000, guid: b0c2bc14ce5ea6d4aab2bc8d3b1b874e,
+    m_spawnerSettings: {fileID: 11400000, guid: 8f83fc3f3be4f0749b1018374b595e5e,
       type: 2}
     m_isActiveInStamper: 0
     m_isActiveInBiome: 1
   - m_autoAssignPrototypes: 0
-    m_spawnerSettings: {fileID: 11400000, guid: 37acf57db6e69424fb7cb8b5727c8858,
+    m_spawnerSettings: {fileID: 11400000, guid: 8366d1e16a7dc6e4da32fed5c55a62b0,
       type: 2}
     m_isActiveInStamper: 0
     m_isActiveInBiome: 1
   - m_autoAssignPrototypes: 0
-    m_spawnerSettings: {fileID: 11400000, guid: 534fd92567de8714c91a6ff6438f6e78,
+    m_spawnerSettings: {fileID: 11400000, guid: daf3d13b9e3f7d44898d2d0ea692cc71,
       type: 2}
     m_isActiveInStamper: 0
     m_isActiveInBiome: 1
-  m_forceShaderReimport: 0
+  - m_autoAssignPrototypes: 0
+    m_spawnerSettings: {fileID: 11400000, guid: 9863d688ef052de49995c7095117b43e,
+      type: 2}
+    m_isActiveInStamper: 0
+    m_isActiveInBiome: 1
+  - m_autoAssignPrototypes: 0
+    m_spawnerSettings: {fileID: 11400000, guid: 78c570415aea89244a783b7bf69dc1d2,
+      type: 2}
+    m_isActiveInStamper: 0
+    m_isActiveInBiome: 1
+  m_forceShaderReimport: 1
   m_shaderReimportRestartRequired: 0

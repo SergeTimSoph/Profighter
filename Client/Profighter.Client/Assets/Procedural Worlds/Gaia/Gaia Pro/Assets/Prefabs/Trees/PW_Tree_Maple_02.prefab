@@ -28,6 +28,7 @@ Transform:
   m_LocalRotation: {x: 0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: -0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 8833865779012682208}
   m_RootOrder: 1
@@ -51,6 +52,7 @@ MeshRenderer:
   m_CastShadows: 1
   m_ReceiveShadows: 1
   m_DynamicOccludee: 1
+  m_StaticShadowCaster: 0
   m_MotionVectors: 1
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
@@ -110,6 +112,7 @@ Transform:
   m_LocalRotation: {x: 0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: -0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 8833865779012682208}
   m_RootOrder: 0
@@ -133,6 +136,7 @@ MeshRenderer:
   m_CastShadows: 1
   m_ReceiveShadows: 1
   m_DynamicOccludee: 1
+  m_StaticShadowCaster: 0
   m_MotionVectors: 1
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
@@ -192,6 +196,7 @@ Transform:
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: -8.01, y: -2.5995853e-17, z: 1.1707492}
   m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 1835092357560449312}
   - {fileID: 6649461073668962625}
@@ -245,6 +250,7 @@ PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Modification:
+    serializedVersion: 2
     m_TransformParent: {fileID: 8833865779012682208}
     m_Modifications:
     - target: {fileID: 4833328879917500662, guid: 2b60c5c6f3e9a7a4697aa66faa2b003b,
@@ -318,16 +324,17 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
+    m_AddedGameObjects: []
   m_SourcePrefab: {fileID: 100100000, guid: 2b60c5c6f3e9a7a4697aa66faa2b003b, type: 3}
---- !u!4 &9008949166765964277 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 7295165102551161217, guid: 2b60c5c6f3e9a7a4697aa66faa2b003b,
-    type: 3}
-  m_PrefabInstance: {fileID: 1746153705973064308}
-  m_PrefabAsset: {fileID: 0}
 --- !u!23 &5042122503579100452 stripped
 MeshRenderer:
   m_CorrespondingSourceObject: {fileID: 6756140755163826000, guid: 2b60c5c6f3e9a7a4697aa66faa2b003b,
+    type: 3}
+  m_PrefabInstance: {fileID: 1746153705973064308}
+  m_PrefabAsset: {fileID: 0}
+--- !u!4 &9008949166765964277 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 7295165102551161217, guid: 2b60c5c6f3e9a7a4697aa66faa2b003b,
     type: 3}
   m_PrefabInstance: {fileID: 1746153705973064308}
   m_PrefabAsset: {fileID: 0}

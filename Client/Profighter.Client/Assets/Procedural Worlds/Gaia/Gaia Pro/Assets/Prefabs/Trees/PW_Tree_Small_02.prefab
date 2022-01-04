@@ -28,6 +28,7 @@ Transform:
   m_LocalRotation: {x: 0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0.0015752509, y: -0.0037869303, z: 0.0025904013}
   m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 1829226622162518857}
   m_RootOrder: 1
@@ -51,6 +52,7 @@ MeshRenderer:
   m_CastShadows: 1
   m_ReceiveShadows: 1
   m_DynamicOccludee: 1
+  m_StaticShadowCaster: 0
   m_MotionVectors: 1
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
@@ -110,6 +112,7 @@ Transform:
   m_LocalRotation: {x: 0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0.0015752631, y: -0.0037869303, z: 0.0025904013}
   m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 1829226622162518857}
   m_RootOrder: 0
@@ -133,6 +136,7 @@ MeshRenderer:
   m_CastShadows: 1
   m_ReceiveShadows: 1
   m_DynamicOccludee: 1
+  m_StaticShadowCaster: 0
   m_MotionVectors: 1
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
@@ -192,6 +196,7 @@ Transform:
   m_LocalRotation: {x: 0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: -0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 2199418378259404231}
   - {fileID: 2601574120976965310}
@@ -245,6 +250,7 @@ PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Modification:
+    serializedVersion: 2
     m_TransformParent: {fileID: 1829226622162518857}
     m_Modifications:
     - target: {fileID: 528767637005559184, guid: 502d1871dbf816a428937c72ede0f217,
@@ -318,16 +324,17 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
+    m_AddedGameObjects: []
   m_SourcePrefab: {fileID: 100100000, guid: 502d1871dbf816a428937c72ede0f217, type: 3}
---- !u!4 &7383899256727933299 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 2198748130835364559, guid: 502d1871dbf816a428937c72ede0f217,
-    type: 3}
-  m_PrefabInstance: {fileID: 8717672030770883516}
-  m_PrefabAsset: {fileID: 0}
 --- !u!23 &481460308799801124 stripped
 MeshRenderer:
   m_CorrespondingSourceObject: {fileID: 9103209844898442392, guid: 502d1871dbf816a428937c72ede0f217,
+    type: 3}
+  m_PrefabInstance: {fileID: 8717672030770883516}
+  m_PrefabAsset: {fileID: 0}
+--- !u!4 &7383899256727933299 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 2198748130835364559, guid: 502d1871dbf816a428937c72ede0f217,
     type: 3}
   m_PrefabInstance: {fileID: 8717672030770883516}
   m_PrefabAsset: {fileID: 0}

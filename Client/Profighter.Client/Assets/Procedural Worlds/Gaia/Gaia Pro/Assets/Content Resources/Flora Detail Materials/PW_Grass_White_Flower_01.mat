@@ -15,15 +15,31 @@ MonoBehaviour:
   m_DiffusionProfileReferences:
   - {fileID: 11400000, guid: 59c6e3f7660e60048a00ea00dc385d0d, type: 2}
   m_MaterialReferences: []
+--- !u!114 &-4210974050826186684
+MonoBehaviour:
+  m_ObjectHideFlags: 11
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d0353a89b1f911e48b9e16bdc9f2e058, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  version: 6
 --- !u!21 &2100000
 Material:
-  serializedVersion: 6
+  serializedVersion: 7
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: PW_Grass_White_Flower_01
-  m_Shader: {fileID: 4800000, guid: 72462e7bb7591b4418a705a37fe544ac, type: 3}
+  m_Shader: {fileID: -6465566751694194690, guid: 00efb9683d88ef54f91cfd4c0e362b1b,
+    type: 3}
+  m_Parent: {fileID: 0}
+  m_ModifiedSerializedProperties: 0
   m_ShaderKeywords: _ALPHATEST_ON _DISABLE_SSR_TRANSPARENT _DOUBLESIDED_ON _PW_SF_WIND_ON
   m_LightmapFlags: 4
   m_EnableInstancingVariants: 0
@@ -37,6 +53,7 @@ Material:
   - TransparentDepthPrepass
   - TransparentDepthPostpass
   - TransparentBackface
+  m_LockedProperties: 
   m_SavedProperties:
     serializedVersion: 3
     m_TexEnvs:
@@ -140,6 +157,7 @@ Material:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
+    m_Ints: []
     m_Floats:
     - _AORemapMax: 1
     - _AORemapMin: 0
@@ -155,7 +173,9 @@ Material:
     - _AlphaSrcBlend: 1
     - _AlphaToMask: 0
     - _AlphaToMaskInspectorValue: 0
+    - _Ambient: 0.5
     - _Anisotropy: 0
+    - _Billboard: 0
     - _BlendMode: 0
     - _CoatMask: 0
     - _CullMode: 0
@@ -170,6 +190,7 @@ Material:
     - _DisplacementLockObjectScale: 1
     - _DisplacementLockTilingScale: 1
     - _DisplacementMode: 0
+    - _Distortion: 10
     - _DistortionBlendMode: 0
     - _DistortionBlurBlendMode: 0
     - _DistortionBlurDstBlend: 1
@@ -224,12 +245,16 @@ Material:
     - _PPDPrimitiveWidth: 1
     - _PW_SF_WIND: 1
     - _PW_ShaderID: 0
+    - _Power: 10
+    - _QueueControl: 0
+    - _QueueOffset: 0
     - _RayTracing: 0
     - _ReceivesSSR: 1
     - _ReceivesSSRTransparent: 0
     - _RefractionModel: 0
     - _RenderQueueType: 1
     - _RequireSplitLighting: 0
+    - _Scale: 10
     - _Smoothness: 0.5
     - _SmoothnessRemapMax: 1
     - _SmoothnessRemapMin: 0
@@ -289,6 +314,7 @@ Material:
     - _PW_WindTreeFlex: {r: 0.8, g: 1.15, b: 0.1, a: 0}
     - _PW_WindTreeFrequency: {r: 0.25, g: 0.5, b: 1.3, a: 0}
     - _PW_WindTreeWidthHeight: {r: 1, g: 1, b: 0.66, a: 0.66}
+    - _SSSColor: {r: 1, g: 1, b: 1, a: 0}
     - _SpecularColor: {r: 1, g: 1, b: 1, a: 1}
     - _ThicknessRemap: {r: 0, g: 1, b: 0, a: 0}
     - _TransmittanceColor: {r: 1, g: 1, b: 1, a: 1}
